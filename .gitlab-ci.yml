@@ -24,7 +24,7 @@ build-job:       # This job runs in the build stage, which runs first.
   image: archlinux
 
   before_script:
-    - pacman -Syu jdk-openjdk make
+    - pacman -Syu --noconfirm jdk-openjdk make
 
   script:
     - make setup all
