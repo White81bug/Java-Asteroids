@@ -1,4 +1,8 @@
 export VERSION=5.5.0-2
+export TARGETS+= build/Main.class
+
+all:
+	make $(TARGETS)
 
 build/Main.class: src/Main.java makefile
 	javac -Xlint -d build -cp build/jaylib-ffm.jar src/Main.java
