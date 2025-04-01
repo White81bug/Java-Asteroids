@@ -1,4 +1,4 @@
-export DISPLAY=:1
+export VERSION=5.5.0-2
 
 build:
 	javac -cp jaylib-ffm.jar Main.java
