@@ -5,3 +5,6 @@ tmp/
 
 *.class
 build
+.classpath
+.project
+.settings/
