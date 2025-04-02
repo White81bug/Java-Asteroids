@@ -6,12 +6,9 @@ import static com.raylib.Raylib.CameraProjection.CAMERA_PERSPECTIVE;
 
 import com.raylib.Camera2D;
 import com.raylib.Vector2;
-
-class ArrayOutOfBounds extends java.lang.Exception {
-    ArrayOutOfBounds() {
-        super();
-    }
-}
+import com.raylib.jextract.rlRenderBatch;
+import com.raylib.jextract.rlVertexBuffer;
+import java.lang.ArrayIndexOutOfBoundsException;
 
 class StaticList<T> {
     static final int ARRAY_SIZE = 1024;
@@ -32,17 +29,17 @@ class StaticList<T> {
         return real_len;
     }
 
-    T Get(int i) throws ArrayOutOfBounds {
+    T Get(int i) throws ArrayIndexOutOfBoundsException {
         if (i < 0) {
             System.err.printf("Got i == %d when real_len == %d\n", i, real_len);
-            throw new ArrayOutOfBounds();
+            throw new ArrayIndexOutOfBoundsException();
         }
         return (T) list[i];
     }
 
-    T Pop(int i) throws ArrayOutOfBounds {
+    T Pop(int i) throws ArrayIndexOutOfBoundsException {
         if (i < 0 || real_len <= i) {
-            throw new ArrayOutOfBounds();
+            throw new ArrayIndexOutOfBoundsException();
         }
         T tmp = (T) list[i];
         list[i] = null;
@@ -51,17 +48,48 @@ class StaticList<T> {
 
 }
 
+class Shape {
+    private Vector2[] ref;
+    Vector2[] points;
+    int size = 0;
+
+    static final int MAX_SIZE = 32;
+
+    Shape(Vector2[] points) {
+        ref = points;
+        size = ref.length;
+        this.points = ref;
+    }
+}
+
 class Thing {
     float rotateSpeed;
     float heading;
     Vector2 position;
     Vector2 speed;
+    Shape shape;
 
-    Thing() {
+    Thing(Shape shape) {
         rotateSpeed = 0;
         heading = 0;
         position = new Vector2(0, 0);
-        speed = new Vector2(0, 0);
+        speed = new Vector2(1, 0);
+        this.shape = shape;
+    }
+
+    void Draw() {
+        if (this.shape == null)
+            throw new NullPointerException();
+        if (this.shape.size < 1)
+            return;
+        Vector2 startPos = this.shape.points[this.shape.size - 1];
+        Vector2 endPos = this.shape.points[0];
+        drawLineV(startPos, endPos, RAYWHITE);
+        for (int i = 1; i < this.shape.size; i++) {
+            startPos = endPos;
+            endPos = this.shape.points[i];
+            drawLineV(startPos, endPos, RAYWHITE);
+        }
     }
 };
 
@@ -69,13 +97,41 @@ class LogicMaster {
     StaticList<Thing> objList;
     int playerScore;
 
+    static final Shape player = new Shape(new Vector2[] {
+            new Vector2(1, 1),
+            new Vector2(2, 2),
+            new Vector2(1, 2) });
+
     LogicMaster() {
         objList = new StaticList<Thing>();
         playerScore = 0;
     }
 
     void CreateAsteroid() {
-        objList.Push(new Thing());
+        objList.Push(new Thing(LogicMaster.player));
+    }
+
+    void Render() {
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = null;
+            try {
+                obj = objList.Get(i);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+            if (obj == null)
+                continue;
+
+            try {
+                obj.Draw();
+            } catch (NullPointerException e) {
+
+                System.out.printf("Got a null on i == %d\n", i);
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
     }
 }
 
@@ -93,10 +149,11 @@ public class Main {
         LogicMaster joel = new LogicMaster();
 
         joel.CreateAsteroid();
+        joel.objList.Get(0).position = new Vector2(2, 2);
         System.out.println(joel.objList.GetLen());
         try {
             System.out.println(joel.objList.Get(0));
-        } catch (ArrayOutOfBounds e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.exit(-1);
         }
         ;
@@ -105,7 +162,9 @@ public class Main {
             clearBackground(BLACK);
             beginMode2D(camera);
             drawGrid(2000, 1.0f);
-            drawRectangleV(new Vector2(0, 0), new Vector2(100, 100), RAYWHITE);
+
+            joel.Render();
+
             endMode2D();
             drawFPS(20, 20);
             endDrawing();
