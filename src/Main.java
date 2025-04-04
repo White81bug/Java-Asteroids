@@ -12,6 +12,24 @@ class GLOBALS {
     static final int MIN_WORLD_POS = 0;
     static final int MAX_WORLD_POS = 1024;
 }
+
+class Renderer extends GLOBALS {
+    static final int GRID_STEP = (MAX_WORLD_POS - MIN_WORLD_POS) / 40;
+    static final com.raylib.Color GRID_COLOR = new com.raylib.Color((byte) 100, (byte) 100, (byte) 100, (byte) 100);
+    static final com.raylib.Color BORDER_COLOR = new com.raylib.Color((byte) 0xa0, (byte) 0xa0, (byte) 0xa0,
+            (byte) 0xff);
+
+    static void drawGrid() {
+        for (int i = MIN_WORLD_POS + GRID_STEP; i < MAX_WORLD_POS; i += GRID_STEP) {
+            drawLine(i, MIN_WORLD_POS, i, MAX_WORLD_POS, GRID_COLOR);
+            drawLine(MIN_WORLD_POS, i, MAX_WORLD_POS, i, GRID_COLOR);
+        }
+        drawLine(MIN_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, MAX_WORLD_POS, BORDER_COLOR);
+        drawLine(MIN_WORLD_POS, MAX_WORLD_POS, MAX_WORLD_POS, MAX_WORLD_POS, BORDER_COLOR);
+        drawLine(MAX_WORLD_POS, MAX_WORLD_POS, MAX_WORLD_POS, MIN_WORLD_POS, BORDER_COLOR);
+        drawLine(MAX_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, BORDER_COLOR);
+    }
+}
     }
 }
 
