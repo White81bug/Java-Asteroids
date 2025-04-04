@@ -155,7 +155,30 @@ class LogicMaster {
     }
 
     void CreateAsteroid() {
-        objList.Push(new Thing());
+        objList.Push(new Thing(LogicMaster.asteroid));
+    }
+
+    void Render() {
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = null;
+            try {
+                obj = objList.Get(i);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+            if (obj == null)
+                continue;
+
+            try {
+                obj.Draw();
+            } catch (NullPointerException e) {
+
+                System.out.printf("Got a null on i == %d\n", i);
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
     }
 }
 
