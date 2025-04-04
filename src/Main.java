@@ -94,18 +94,35 @@ class Thing {
     float heading;
     Vector2 position;
     Vector2 speed;
+    Shape shape;
 
-    Thing() {
+    Thing(Shape shape) {
         rotateSpeed = 0;
         heading = 0;
         position = new Vector2(0, 0);
         speed = new Vector2(0, 0);
+        this.shape = shape;
+    }
     }
 };
 
 class LogicMaster {
     StaticList<Thing> objList;
     int playerScore;
+
+    static final Shape asteroid = new Shape(new Vector2[] {
+            new Vector2(2, 2),
+            new Vector2(-2, 2),
+            new Vector2(-2, -2),
+            new Vector2(2, -2)
+    });
+
+    static final Shape player = new Shape(new Vector2[] {
+            new Vector2(0, -2),
+            new Vector2(-2, 2),
+            new Vector2(0, 1),
+            new Vector2(2, 2)
+    });
 
     LogicMaster() {
         objList = new StaticList<Thing>();
