@@ -8,6 +8,7 @@ import com.raylib.Camera2D;
 import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
+
 class GLOBALS {
     static final int MIN_WORLD_POS = 0;
     static final int MAX_WORLD_POS = 1024;
