@@ -71,6 +71,24 @@ class StaticList<T> {
 
 }
 
+class Shape {
+    private Vector2[] ref;
+    Vector2[] points;
+    int size = 0;
+    float scale = 20;
+
+    static final int MAX_SIZE = 32;
+
+    Shape(Vector2[] newPoints) {
+        this.ref = newPoints;
+        this.size = ref.length;
+        this.points = this.ref;
+        for (int i = 0; i < this.size; i++) {
+            this.points[i] = mUtils.vecMul(this.ref[i], this.scale);
+        }
+    }
+}
+
 class Thing {
     float rotateSpeed;
     float heading;
