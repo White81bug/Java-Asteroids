@@ -112,6 +112,22 @@ class Thing {
         speed = new Vector2(0, 0);
         this.shape = shape;
     }
+
+    void Draw() {
+        if (this.shape == null)
+            throw new NullPointerException();
+        if (this.shape.size < 1)
+            return;
+        Vector2 startPos = mUtils.vecAdd(this.shape.points[this.shape.size - 1], this.position);
+        Vector2 endPos = mUtils.vecAdd(this.shape.points[0], this.position);
+
+        drawLineV(startPos, endPos, RAYWHITE);
+        for (int i = 1; i < this.shape.size; i++) {
+            startPos = endPos;
+            endPos = mUtils.vecAdd(this.shape.points[i], this.position);
+            drawLineV(startPos, endPos, RAYWHITE);
+        }
+
     }
 };
 
