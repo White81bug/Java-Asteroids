@@ -30,7 +30,16 @@ class Renderer extends GLOBALS {
         drawLine(MAX_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, BORDER_COLOR);
     }
 }
+
+class mUtils {
+    static Vector2 vecAdd(Vector2 a, Vector2 b) {
+        return new Vector2(a.getX() + b.getX(), a.getY() + b.getY());
     }
+
+    static Vector2 vecMul(Vector2 a, float b) {
+        return new Vector2(a.getX() * b, a.getY() * b);
+    }
+
 }
 
 class StaticList<T> {
