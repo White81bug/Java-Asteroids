@@ -184,7 +184,7 @@ class LogicMaster {
 
 public class Main {
     public static void main(String args[]) {
-        initWindow(800, 450, "Demo");
+        initWindow(1280, 800, "Demo");
         setTargetFPS(60);
 
         Camera2D camera = new Camera2D(
