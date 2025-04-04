@@ -196,6 +196,7 @@ public class Main {
         LogicMaster joel = new LogicMaster();
 
         joel.CreateAsteroid();
+        joel.objList.Get(0).position = new Vector2(200, 200);
         while (!windowShouldClose()) {
             beginDrawing();
             clearBackground(BLACK);
