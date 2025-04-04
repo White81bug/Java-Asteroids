@@ -200,8 +200,10 @@ public class Main {
             beginDrawing();
             clearBackground(BLACK);
             beginMode2D(camera);
-            drawGrid(2000, 1.0f);
-            drawRectangleV(new Vector2(0, 0), new Vector2(100, 100), RAYWHITE);
+            Renderer.drawGrid();
+
+            joel.Render();
+
             endMode2D();
             drawFPS(20, 20);
             endDrawing();
