@@ -189,9 +189,9 @@ public class Main {
 
         Camera2D camera = new Camera2D(
                 new Vector2(0, 0), // offset
-                new Vector2(0, 0), // target
+                new Vector2(-10, -10), // target
                 0, // rotation
-                0.5f // zoom
+                2f // zoom
         );
         LogicMaster joel = new LogicMaster();
 
