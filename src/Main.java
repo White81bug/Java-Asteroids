@@ -1,8 +1,6 @@
 
 import static com.raylib.Raylib.*;
 
-import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
-import static com.raylib.Raylib.CameraProjection.CAMERA_PERSPECTIVE;
 import static com.raylib.Raylib.KeyboardKey.*;
 
 import com.raylib.Camera2D;
@@ -81,7 +79,7 @@ class LogicMaster {
     void CreateAsteroid() {
         objList.Push(new Thing());
     }
-
+    //Разбираемся с управлением игрока.
     void HandleInput() {
         float moveSpeed = 2.5f;
         player.speed.setX(0);
@@ -92,11 +90,11 @@ class LogicMaster {
         if (isKeyDown(KEY_A)) player.speed.setX(player.speed.getX() - moveSpeed);
         if (isKeyDown(KEY_D)) player.speed.setX(player.speed.getX()+moveSpeed);
     }
-    void Update(){
+    void UpdatePlayer(){
         HandleInput();
         player.Update();
     }
-    void Render() {
+    void RenderPlayer() {
         player.Draw();
     }
 }
@@ -125,7 +123,7 @@ public class Main {
         }
         ;
         while (!windowShouldClose()) {
-            joel.Update();
+            joel.UpdatePlayer();
 
             camera.setTarget(joel.player.position);
 
@@ -136,7 +134,7 @@ public class Main {
             //drawGrid(2000, 1.0f);
             //drawRectangleV(new Vector2(0, 0), new Vector2(100, 100), RAYWHITE);
 
-            joel.Render();
+            joel.RenderPlayer();
 
             //endMode2D();
             drawFPS(20, 20);
