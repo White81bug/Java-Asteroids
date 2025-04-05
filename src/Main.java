@@ -1,5 +1,6 @@
 
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.KeyboardKey.*;
 
 import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
 import static com.raylib.Raylib.CameraProjection.CAMERA_PERSPECTIVE;
@@ -131,10 +132,37 @@ class Thing {
 
     }
 };
+class Player extends Thing {
+
+    float moveSpeed = 2.5f;
+
+    Player(Shape shape) {
+        super(shape);
+    }
+
+    void Update() {
+        Vector2 input = new Vector2(0, 0);
+
+        if (isKeyDown(KEY_W)) input.setY(input.getY()-1);
+        if (isKeyDown(KEY_S)) input.setY(input.getY()+1);
+        if (isKeyDown(KEY_A)) input.setX(input.getX()-1);
+        if (isKeyDown(KEY_D)) input.setX(input.getX()+1);
+
+        float length = (float) Math.sqrt(input.getX() * input.getX() + input.getY() * input.getY());
+        if (length > 0){
+            input.setY(input.getY()/length);
+            input.setX(input.getX()/length);
+        }
+
+        position = mUtils.vecAdd(position, mUtils.vecMul(input, moveSpeed));
+    }
+}
+
 
 class LogicMaster {
     StaticList<Thing> objList;
     int playerScore;
+    Player player;
 
     static final Shape asteroid = new Shape(new Vector2[] {
             new Vector2(2, 2),
@@ -143,7 +171,7 @@ class LogicMaster {
             new Vector2(2, -2)
     });
 
-    static final Shape player = new Shape(new Vector2[] {
+    static final Shape playerShape = new Shape(new Vector2[] {
             new Vector2(0, -2),
             new Vector2(-2, 2),
             new Vector2(0, 1),
@@ -153,13 +181,19 @@ class LogicMaster {
     LogicMaster() {
         objList = new StaticList<Thing>();
         playerScore = 0;
+        player = new Player(LogicMaster.playerShape);
+        player.position = new Vector2(100, 100);
     }
 
     void CreateAsteroid() {
         objList.Push(new Thing(LogicMaster.asteroid));
     }
+    void Update() {
+        player.Update();
+    }
 
     void Render() {
+        player.Draw();
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -199,6 +233,7 @@ public class Main {
         joel.CreateAsteroid();
         joel.objList.Get(0).position = new Vector2(200, 200);
         while (!windowShouldClose()) {
+            joel.Update();
             beginDrawing();
             clearBackground(BLACK);
             beginMode2D(camera);
