@@ -98,6 +98,24 @@ class Shape {
             this.points[i] = mUtils.vecMul(this.ref[i], this.scale);
         }
     }
+
+    Vector2[] getRotatedPoints(float angle) {
+        Vector2[] rotated = new Vector2[this.size];
+        float cos = (float) Math.cos(angle);
+        float sin = (float) Math.sin(angle);
+
+        for (int i = 0; i < this.size; i++) {
+            float x = this.ref[i].getX() * this.scale;
+            float y = this.ref[i].getY() * this.scale;
+
+            float rotatedX = x * cos - y * sin;
+            float rotatedY = x * sin + y * cos;
+
+            rotated[i] = new Vector2(rotatedX, rotatedY);
+        }
+
+        return rotated;
+    }
 }
 
 class Thing {
@@ -116,20 +134,20 @@ class Thing {
     }
 
     void Draw() {
-        if (this.shape == null)
-            throw new NullPointerException();
-        if (this.shape.size < 1)
-            return;
-        Vector2 startPos = mUtils.vecAdd(this.shape.points[this.shape.size - 1], this.position);
-        Vector2 endPos = mUtils.vecAdd(this.shape.points[0], this.position);
+        if (this.shape == null) throw new NullPointerException();
+        if (this.shape.size < 1) return;
+
+        Vector2[] rotated = this.shape.getRotatedPoints(-this.heading);
+
+        Vector2 startPos = mUtils.vecAdd(rotated[this.shape.size - 1], this.position);
+        Vector2 endPos = mUtils.vecAdd(rotated[0], this.position);
 
         drawLineV(startPos, endPos, RAYWHITE);
         for (int i = 1; i < this.shape.size; i++) {
             startPos = endPos;
-            endPos = mUtils.vecAdd(this.shape.points[i], this.position);
+            endPos = mUtils.vecAdd(rotated[i], this.position);
             drawLineV(startPos, endPos, RAYWHITE);
         }
-
     }
 };
 class Player extends Thing {
@@ -147,14 +165,20 @@ class Player extends Thing {
         if (isKeyDown(KEY_S)) input.setY(input.getY()+1);
         if (isKeyDown(KEY_A)) input.setX(input.getX()-1);
         if (isKeyDown(KEY_D)) input.setX(input.getX()+1);
+        float x = input.getX();
+        float y = input.getY();
+        float length = (float) Math.sqrt(x * x + y * y);
 
-        float length = (float) Math.sqrt(input.getX() * input.getX() + input.getY() * input.getY());
-        if (length > 0){
-            input.setY(input.getY()/length);
-            input.setX(input.getX()/length);
+        if (length > 0) {
+
+            x /= length;
+            y /= length;
+
+
+            heading = (float) Math.atan2(y, -x) + (float) Math.PI / 2;
+
+            position = mUtils.vecAdd(position, new Vector2(x * moveSpeed, y * moveSpeed));
         }
-
-        position = mUtils.vecAdd(position, mUtils.vecMul(input, moveSpeed));
     }
 }
 
@@ -177,6 +201,9 @@ class LogicMaster {
             new Vector2(0, 1),
             new Vector2(2, 2)
     });
+    static {
+        playerShape.scale = 1;
+    }
 
     LogicMaster() {
         objList = new StaticList<Thing>();
