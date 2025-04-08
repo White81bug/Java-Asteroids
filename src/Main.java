@@ -2,9 +2,6 @@
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.KeyboardKey.*;
 
-import static com.raylib.Raylib.CameraMode.CAMERA_ORBITAL;
-import static com.raylib.Raylib.CameraProjection.CAMERA_PERSPECTIVE;
-
 import com.raylib.Camera2D;
 import com.raylib.Vector2;
 
@@ -158,7 +155,8 @@ class Player extends Thing {
         super(shape);
     }
 
-    void Update() {
+    //Не знаю, надо будет для физики или нет, но тут можно в  return поставить position
+    void UpdatePlayerPosition() {
         Vector2 input = new Vector2(0, 0);
 
         if (isKeyDown(KEY_W)) input.setY(input.getY()-1);
@@ -216,7 +214,7 @@ class LogicMaster {
         objList.Push(new Thing(LogicMaster.asteroid));
     }
     void Update() {
-        player.Update();
+        player.UpdatePlayerPosition();
     }
 
     void Render() {
