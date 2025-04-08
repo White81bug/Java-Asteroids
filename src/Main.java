@@ -178,6 +178,10 @@ class Player extends Thing {
             position = mUtils.vecAdd(position, new Vector2(x * moveSpeed, y * moveSpeed));
         }
 
+        if (isKeyPressed(KEY_SPACE)) {
+            LogicMaster.RequestBullet(position, heading);
+        }
+
     }
 }
 class Bullet extends Thing {
@@ -190,7 +194,7 @@ class Bullet extends Thing {
         this.speed = 8.0f;
     }
 
-    void Update() {
+    void UpdatePosition() {
         float direction = heading - (float)Math.PI / 2;
         float vx = -((float)Math.cos(direction) * speed);
         float vy = (float)Math.sin(direction) * speed;
@@ -198,9 +202,9 @@ class Bullet extends Thing {
     }
 
     boolean isOffscreen() {
-        return position.getX() < -50 || position.getX() > 2000 ||
-                position.getY() < -50 || position.getY() > 2000;
+        return position.getX() < -50 || position.getX() > 2000 || position.getY() < -50 || position.getY() > 2000;
     }
+    
 }
 
 
@@ -209,7 +213,7 @@ class LogicMaster {
     StaticList<Thing> objList;
     int playerScore;
     Player player;
-    StaticList<Bullet> bullets;
+    static StaticList<Bullet> bullets;
 
     static final Shape asteroid = new Shape(new Vector2[] {
             new Vector2(2, 2),
@@ -247,18 +251,17 @@ class LogicMaster {
     void CreateAsteroid() {
         objList.Push(new Thing(LogicMaster.asteroid));
     }
+    static void RequestBullet(Vector2 position, float heading) {
+        bullets.Push(new Bullet(position, heading, bulletShape));
+    }
     void Update() {
         player.UpdatePlayerPosition();
 
-        if (isKeyPressed(KEY_SPACE)) {
-            Bullet b = new Bullet(player.position, player.heading, bulletShape);
-            bullets.Push(b);
-        }
         for (int i = 0; i < bullets.GetLen(); i++) {
             Bullet b = bullets.Get(i);
             if (b == null) continue;
-
-            b.Update();
+            
+            b.UpdatePosition();
             if (b.isOffscreen()) bullets.Pop(i);
         }
     }
