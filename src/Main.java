@@ -177,14 +177,39 @@ class Player extends Thing {
 
             position = mUtils.vecAdd(position, new Vector2(x * moveSpeed, y * moveSpeed));
         }
+
     }
 }
+class Bullet extends Thing {
+    float speed = 8.0f;
+
+    Bullet(Vector2 startPos, float angle, Shape shape) {
+        super(shape);
+        this.position = new Vector2(startPos.getX(), startPos.getY());
+        this.heading = angle;
+        this.speed = 8.0f;
+    }
+
+    void Update() {
+        float direction = heading - (float)Math.PI / 2;
+        float vx = -((float)Math.cos(direction) * speed);
+        float vy = (float)Math.sin(direction) * speed;
+        this.position = mUtils.vecAdd(this.position, new Vector2(vx, vy));
+    }
+
+    boolean isOffscreen() {
+        return position.getX() < -50 || position.getX() > 2000 ||
+                position.getY() < -50 || position.getY() > 2000;
+    }
+}
+
 
 
 class LogicMaster {
     StaticList<Thing> objList;
     int playerScore;
     Player player;
+    StaticList<Bullet> bullets;
 
     static final Shape asteroid = new Shape(new Vector2[] {
             new Vector2(2, 2),
@@ -202,12 +227,21 @@ class LogicMaster {
     static {
         playerShape.scale = 1;
     }
+    static final Shape bulletShape = new Shape(new Vector2[] {
+            new Vector2(0, -0.5f),
+            new Vector2(0.5f, 0.5f),
+            new Vector2(-0.5f, 0.5f)
+    });
+    static {
+        bulletShape.scale = 1;
+    }
 
     LogicMaster() {
         objList = new StaticList<Thing>();
         playerScore = 0;
         player = new Player(LogicMaster.playerShape);
         player.position = new Vector2(100, 100);
+        bullets = new StaticList<>();
     }
 
     void CreateAsteroid() {
@@ -215,10 +249,26 @@ class LogicMaster {
     }
     void Update() {
         player.UpdatePlayerPosition();
+
+        if (isKeyPressed(KEY_SPACE)) {
+            Bullet b = new Bullet(player.position, player.heading, bulletShape);
+            bullets.Push(b);
+        }
+        for (int i = 0; i < bullets.GetLen(); i++) {
+            Bullet b = bullets.Get(i);
+            if (b == null) continue;
+
+            b.Update();
+            if (b.isOffscreen()) bullets.Pop(i);
+        }
     }
 
     void Render() {
         player.Draw();
+        for (int i = 0; i < bullets.GetLen(); i++) {
+            Bullet b = bullets.Get(i);
+            if (b != null) b.Draw();
+        }
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
