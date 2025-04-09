@@ -153,6 +153,7 @@ class Thing {
             endPos = mUtils.vecAdd(rotated[i], this.position);
             drawLineV(startPos, endPos, RAYWHITE);
         }
+
     }
 };
 class Player extends Thing {
@@ -232,6 +233,9 @@ class LogicMaster {
             new Vector2(-2, -2),
             new Vector2(2, -2)
     });
+    static{
+        asteroid.scale = 1;
+    }
 
     static final Shape playerShape = new Shape(new Vector2[] {
             new Vector2(0, -2),
@@ -259,8 +263,11 @@ class LogicMaster {
         bullets = new StaticList<>();
     }
 
-    void CreateAsteroid() {
-        objList.Push(new Thing(LogicMaster.asteroid));
+    void CreateAsteroid(Vector2 position) {
+        Thing asteroidObj = new Thing(LogicMaster.asteroid);
+        asteroidObj.radius = 16;
+        asteroidObj.position = position;
+        objList.Push(asteroidObj);
     }
     static void RequestBullet(Vector2 position, float heading) {
         bullets.Push(new Bullet(position, heading, bulletShape));
@@ -331,8 +338,7 @@ public class Main {
         );
         LogicMaster joel = new LogicMaster();
 
-        joel.CreateAsteroid();
-        joel.objList.Get(0).position = new Vector2(200, 200);
+        joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
             joel.Update();
             beginDrawing();
