@@ -38,6 +38,11 @@ class mUtils {
     static Vector2 vecMul(Vector2 a, float b) {
         return new Vector2(a.getX() * b, a.getY() * b);
     }
+    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
+        float dx = a.getX() - b.getX();
+        float dy = a.getY() - b.getY();
+        return dx * dx + dy * dy <= radius * radius;
+    }
 
 }
 
@@ -121,6 +126,7 @@ class Thing {
     Vector2 position;
     Vector2 speed;
     Shape shape;
+    float radius = 20;
 
     Thing(Shape shape) {
         rotateSpeed = 0;
@@ -128,6 +134,8 @@ class Thing {
         position = new Vector2(0, 0);
         speed = new Vector2(0, 0);
         this.shape = shape;
+
+
     }
 
     void Draw() {
@@ -153,7 +161,9 @@ class Player extends Thing {
 
     Player(Shape shape) {
         super(shape);
+       this.radius = 10;
     }
+
 
     //Не знаю, надо будет для физики или нет, но тут можно в  return поставить position
     void UpdatePlayerPosition() {
@@ -192,6 +202,7 @@ class Bullet extends Thing {
         this.position = new Vector2(startPos.getX(), startPos.getY());
         this.heading = angle;
         this.speed = 8.0f;
+        this.radius = 4;
     }
 
     void UpdatePosition() {
@@ -262,6 +273,18 @@ class LogicMaster {
             if (b == null) continue;
             
             b.UpdatePosition();
+
+            for (int j = 0; j < objList.GetLen(); j++) {
+                Thing obj = objList.Get(j);
+                if (obj == null) continue;
+
+                if (mUtils.checkCollision(b.position, obj.position, b.radius + obj.radius)) {
+                    bullets.Pop(i);
+                    objList.Pop(j);
+                    break;
+                }
+            }
+
             if (b.isOffscreen()) bullets.Pop(i);
         }
     }
