@@ -157,31 +157,6 @@ class Thing {
 
     }
 };
-class Bullet extends Thing {
-    float speed = 8.0f;
-
-    Bullet(Vector2 startPos, float angle, Shape shape) {
-        super(shape);
-        this.position = new Vector2(startPos.getX(), startPos.getY());
-        this.heading = angle;
-        this.speed = 8.0f;
-        this.radius = 4;
-    }
-
-    void UpdatePosition() {
-        float direction = heading - (float)Math.PI / 2;
-        float vx = -((float)Math.cos(direction) * speed);
-        float vy = (float)Math.sin(direction) * speed;
-        this.position = mUtils.vecAdd(this.position, new Vector2(vx, vy));
-    }
-
-    boolean isOffscreen() {
-        return position.getX() < -50 || position.getX() > 2000 || position.getY() < -50 || position.getY() > 2000;
-    }
-    
-}
-
-
 
 class LogicMaster {
     StaticList<Thing> objList;
