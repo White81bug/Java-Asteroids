@@ -38,6 +38,7 @@ class mUtils {
     static Vector2 vecMul(Vector2 a, float b) {
         return new Vector2(a.getX() * b, a.getY() * b);
     }
+
     static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
         float dx = a.getX() - b.getX();
         float dy = a.getY() - b.getY();
@@ -134,13 +135,13 @@ class Thing {
         position = new Vector2(0, 0);
         speed = new Vector2(0, 0);
         this.shape = shape;
-
-
     }
 
     void Draw() {
-        if (this.shape == null) throw new NullPointerException();
-        if (this.shape.size < 1) return;
+        if (this.shape == null)
+            throw new NullPointerException();
+        if (this.shape.size < 1)
+            return;
 
         Vector2[] rotated = this.shape.getRotatedPoints(-this.heading);
 
@@ -194,7 +195,7 @@ class LogicMaster {
             new Vector2(-2, -2),
             new Vector2(2, -2)
     });
-    static{
+    static {
         asteroid.scale = 1;
     }
 
@@ -230,21 +231,25 @@ class LogicMaster {
         asteroidObj.position = position;
         objList.Push(asteroidObj);
     }
+
     static void RequestBullet(Vector2 position, float heading) {
         bullets.Push(new Bullet(position, heading, bulletShape));
     }
+
     void Update() {
         player.UpdatePlayerPosition();
 
         for (int i = 0; i < bullets.GetLen(); i++) {
             Bullet b = bullets.Get(i);
-            if (b == null) continue;
-            
+            if (b == null)
+                continue;
+
             b.UpdatePosition();
 
             for (int j = 0; j < objList.GetLen(); j++) {
                 Thing obj = objList.Get(j);
-                if (obj == null) continue;
+                if (obj == null)
+                    continue;
 
                 if (mUtils.checkCollision(b.position, obj.position, b.radius + obj.radius)) {
                     bullets.Pop(i);
@@ -253,7 +258,8 @@ class LogicMaster {
                 }
             }
 
-            if (b.isOffscreen()) bullets.Pop(i);
+            if (b.isOffscreen())
+                bullets.Pop(i);
         }
     }
 
@@ -261,7 +267,8 @@ class LogicMaster {
         player.Draw();
         for (int i = 0; i < bullets.GetLen(); i++) {
             Bullet b = bullets.Get(i);
-            if (b != null) b.Draw();
+            if (b != null)
+                b.Draw();
         }
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
