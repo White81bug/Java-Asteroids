@@ -196,7 +196,6 @@ class LogicMaster {
         objList = new StaticList<Thing>();
         playerScore = 0;
         player = new Player(LogicMaster.playerShape);
-        player.position = new Vector2(100, 100);
         bullets = new StaticList<>();
     }
 

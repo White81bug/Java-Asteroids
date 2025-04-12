@@ -36,6 +36,7 @@ class Player extends Thing {
 
     Player(Shape shape) {
         super(shape);
+        this.position = new Vector2(100, 100);
         this.radius = 10;
     }
 
