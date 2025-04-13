@@ -7,45 +7,6 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-class GLOBALS {
-    static final int MIN_WORLD_POS = 0;
-    static final int MAX_WORLD_POS = 1024;
-}
-
-class Renderer extends GLOBALS {
-    static final int GRID_STEP = (MAX_WORLD_POS - MIN_WORLD_POS) / 40;
-    static final com.raylib.Color GRID_COLOR = new com.raylib.Color((byte) 100, (byte) 100, (byte) 100, (byte) 100);
-    static final com.raylib.Color BORDER_COLOR = new com.raylib.Color((byte) 0xa0, (byte) 0xa0, (byte) 0xa0,
-            (byte) 0xff);
-
-    static void drawGrid() {
-        for (int i = MIN_WORLD_POS + GRID_STEP; i < MAX_WORLD_POS; i += GRID_STEP) {
-            drawLine(i, MIN_WORLD_POS, i, MAX_WORLD_POS, GRID_COLOR);
-            drawLine(MIN_WORLD_POS, i, MAX_WORLD_POS, i, GRID_COLOR);
-        }
-        drawLine(MIN_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, MAX_WORLD_POS, BORDER_COLOR);
-        drawLine(MIN_WORLD_POS, MAX_WORLD_POS, MAX_WORLD_POS, MAX_WORLD_POS, BORDER_COLOR);
-        drawLine(MAX_WORLD_POS, MAX_WORLD_POS, MAX_WORLD_POS, MIN_WORLD_POS, BORDER_COLOR);
-        drawLine(MAX_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, MIN_WORLD_POS, BORDER_COLOR);
-    }
-}
-
-class mUtils {
-    static Vector2 vecAdd(Vector2 a, Vector2 b) {
-        return new Vector2(a.getX() + b.getX(), a.getY() + b.getY());
-    }
-
-    static Vector2 vecMul(Vector2 a, float b) {
-        return new Vector2(a.getX() * b, a.getY() * b);
-    }
-    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
-        float dx = a.getX() - b.getX();
-        float dy = a.getY() - b.getY();
-        return dx * dx + dy * dy <= radius * radius;
-    }
-
-}
-
 class StaticList<T> {
     static final int ARRAY_SIZE = 1024;
     private Object[] list;
@@ -56,9 +17,10 @@ class StaticList<T> {
         real_len = 0;
     }
 
-    void Push(T obj) {
+    T Push(T obj) {
         list[real_len] = obj;
         real_len++;
+        return obj;
     }
 
     int GetLen() {
@@ -84,224 +46,42 @@ class StaticList<T> {
 
 }
 
-class Shape {
-    private Vector2[] ref;
-    Vector2[] points;
-    int size = 0;
-    float scale = 20;
-
-    static final int MAX_SIZE = 32;
-
-    Shape(Vector2[] newPoints) {
-        this.ref = newPoints;
-        this.size = ref.length;
-        this.points = this.ref;
-        for (int i = 0; i < this.size; i++) {
-            this.points[i] = mUtils.vecMul(this.ref[i], this.scale);
-        }
-    }
-
-    Vector2[] getRotatedPoints(float angle) {
-        Vector2[] rotated = new Vector2[this.size];
-        float cos = (float) Math.cos(angle);
-        float sin = (float) Math.sin(angle);
-
-        for (int i = 0; i < this.size; i++) {
-            float x = this.ref[i].getX() * this.scale;
-            float y = this.ref[i].getY() * this.scale;
-
-            float rotatedX = x * cos - y * sin;
-            float rotatedY = x * sin + y * cos;
-
-            rotated[i] = new Vector2(rotatedX, rotatedY);
-        }
-
-        return rotated;
-    }
-}
-
-class Thing {
-    float rotateSpeed;
-    float heading;
-    Vector2 position;
-    Vector2 speed;
-    Shape shape;
-    float radius = 20;
-
-    Thing(Shape shape) {
-        rotateSpeed = 0;
-        heading = 0;
-        position = new Vector2(0, 0);
-        speed = new Vector2(0, 0);
-        this.shape = shape;
-
-
-    }
-
-    void Draw() {
-        if (this.shape == null) throw new NullPointerException();
-        if (this.shape.size < 1) return;
-
-        Vector2[] rotated = this.shape.getRotatedPoints(-this.heading);
-
-        Vector2 startPos = mUtils.vecAdd(rotated[this.shape.size - 1], this.position);
-        Vector2 endPos = mUtils.vecAdd(rotated[0], this.position);
-
-        drawLineV(startPos, endPos, RAYWHITE);
-        for (int i = 1; i < this.shape.size; i++) {
-            startPos = endPos;
-            endPos = mUtils.vecAdd(rotated[i], this.position);
-            drawLineV(startPos, endPos, RAYWHITE);
-        }
-
-    }
-};
-class Player extends Thing {
-
-    float moveSpeed = 2.5f;
-
-    Player(Shape shape) {
-        super(shape);
-       this.radius = 10;
-    }
-
-
-    //Не знаю, надо будет для физики или нет, но тут можно в  return поставить position
-    void UpdatePlayerPosition() {
-        Vector2 input = new Vector2(0, 0);
-
-        if (isKeyDown(KEY_W)) input.setY(input.getY()-1);
-        if (isKeyDown(KEY_S)) input.setY(input.getY()+1);
-        if (isKeyDown(KEY_A)) input.setX(input.getX()-1);
-        if (isKeyDown(KEY_D)) input.setX(input.getX()+1);
-        float x = input.getX();
-        float y = input.getY();
-        float length = (float) Math.sqrt(x * x + y * y);
-
-        if (length > 0) {
-
-            x /= length;
-            y /= length;
-
-
-            heading = (float) Math.atan2(y, -x) + (float) Math.PI / 2;
-
-            position = mUtils.vecAdd(position, new Vector2(x * moveSpeed, y * moveSpeed));
-        }
-
-        if (isKeyPressed(KEY_SPACE)) {
-            LogicMaster.RequestBullet(position, heading);
-        }
-
-    }
-}
-class Bullet extends Thing {
-    float speed = 8.0f;
-
-    Bullet(Vector2 startPos, float angle, Shape shape) {
-        super(shape);
-        this.position = new Vector2(startPos.getX(), startPos.getY());
-        this.heading = angle;
-        this.speed = 8.0f;
-        this.radius = 4;
-    }
-
-    void UpdatePosition() {
-        float direction = heading - (float)Math.PI / 2;
-        float vx = -((float)Math.cos(direction) * speed);
-        float vy = (float)Math.sin(direction) * speed;
-        this.position = mUtils.vecAdd(this.position, new Vector2(vx, vy));
-    }
-
-    boolean isOffscreen() {
-        return position.getX() < -50 || position.getX() > 2000 || position.getY() < -50 || position.getY() > 2000;
-    }
-    
-}
-
-
-
 class LogicMaster {
+
+    Player playerRef = null;
+
+    //         (x1,y1)
+    //         |\
+    //         | \
+    //         |  \ sqrt((x2-x1)^2 + (y2-y1)^2) = r1+r2
+    // |y2-y1| |   \
+    //         |    \
+    //         |   X \
+    // (x1,y2) +------+ (x2,y2)
+    //          |x2-x1|
+
+    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
+        Vector2 dif = mUtils.vecSub(a, b);
+        dif = mUtils.vecMul(dif, dif);
+        return dif.getX() + dif.getY() <= (radius + radius) * (radius + radius);
+    }
+
     StaticList<Thing> objList;
-    int playerScore;
-    Player player;
-    static StaticList<Bullet> bullets;
-
-    static final Shape asteroid = new Shape(new Vector2[] {
-            new Vector2(2, 2),
-            new Vector2(-2, 2),
-            new Vector2(-2, -2),
-            new Vector2(2, -2)
-    });
-    static{
-        asteroid.scale = 1;
-    }
-
-    static final Shape playerShape = new Shape(new Vector2[] {
-            new Vector2(0, -2),
-            new Vector2(-2, 2),
-            new Vector2(0, 1),
-            new Vector2(2, 2)
-    });
-    static {
-        playerShape.scale = 1;
-    }
-    static final Shape bulletShape = new Shape(new Vector2[] {
-            new Vector2(0, -0.5f),
-            new Vector2(0.5f, 0.5f),
-            new Vector2(-0.5f, 0.5f)
-    });
-    static {
-        bulletShape.scale = 1;
-    }
 
     LogicMaster() {
         objList = new StaticList<Thing>();
-        playerScore = 0;
-        player = new Player(LogicMaster.playerShape);
-        player.position = new Vector2(100, 100);
-        bullets = new StaticList<>();
     }
 
-    void CreateAsteroid(Vector2 position) {
-        Thing asteroidObj = new Thing(LogicMaster.asteroid);
-        asteroidObj.radius = 16;
-        asteroidObj.position = position;
-        objList.Push(asteroidObj);
-    }
-    static void RequestBullet(Vector2 position, float heading) {
-        bullets.Push(new Bullet(position, heading, bulletShape));
-    }
-    void Update() {
-        player.UpdatePlayerPosition();
-
-        for (int i = 0; i < bullets.GetLen(); i++) {
-            Bullet b = bullets.Get(i);
-            if (b == null) continue;
-            
-            b.UpdatePosition();
-
-            for (int j = 0; j < objList.GetLen(); j++) {
-                Thing obj = objList.Get(j);
-                if (obj == null) continue;
-
-                if (mUtils.checkCollision(b.position, obj.position, b.radius + obj.radius)) {
-                    bullets.Pop(i);
-                    objList.Pop(j);
-                    break;
-                }
-            }
-
-            if (b.isOffscreen()) bullets.Pop(i);
-        }
+    Asteroid CreateAsteroid(Vector2 position) {
+        return (Asteroid) objList.Push(new Asteroid(position));
     }
 
-    void Render() {
-        player.Draw();
-        for (int i = 0; i < bullets.GetLen(); i++) {
-            Bullet b = bullets.Get(i);
-            if (b != null) b.Draw();
-        }
+    Player CreatePlayer(Vector2 position) {
+        this.playerRef = (Player) objList.Push(new Player(position));
+        return this.playerRef;
+    }
+
+    void RunLogic() {
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -314,6 +94,7 @@ class LogicMaster {
                 continue;
 
             try {
+                obj.Update();
                 obj.Draw();
             } catch (NullPointerException e) {
 
@@ -327,29 +108,31 @@ class LogicMaster {
 
 public class Main {
     public static void main(String args[]) {
-        initWindow(1280, 800, "Demo");
+        initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
 
-        Camera2D camera = new Camera2D(
-                new Vector2(0, 0), // offset
+        Camera2D camera = new Camera2D(new Vector2(0, 0), // offset
                 new Vector2(-10, -10), // target
                 0, // rotation
                 2f // zoom
         );
         LogicMaster joel = new LogicMaster();
 
+        joel.CreatePlayer(new Vector2(200, 200));
         joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
-            joel.Update();
             beginDrawing();
             clearBackground(BLACK);
             beginMode2D(camera);
             Renderer.drawGrid();
 
-            joel.Render();
+            joel.RunLogic();
 
             endMode2D();
             drawFPS(20, 20);
+
+            drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation),
+                    20, 40, 18, RAYWHITE);
             endDrawing();
 
         }
