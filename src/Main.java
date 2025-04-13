@@ -17,9 +17,10 @@ class StaticList<T> {
         real_len = 0;
     }
 
-    void Push(T obj) {
+    T Push(T obj) {
         list[real_len] = obj;
         real_len++;
+        return obj;
     }
 
     int GetLen() {
