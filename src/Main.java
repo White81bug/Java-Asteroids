@@ -47,32 +47,6 @@ class StaticList<T> {
 }
 
 
-class Thing {
-    float rotateSpeed;
-    float heading;
-    Vector2 position;
-    Vector2 speed;
-    Shape shape;
-    float radius = 20;
-
-    Thing(Shape shape) {
-        rotateSpeed = 0;
-        heading = 0;
-        position = new Vector2(0, 0);
-        speed = new Vector2(0, 0);
-        this.shape = shape;
-    }
-
-    void Draw() {
-        if (this.shape == null)
-            throw new NullPointerException();
-        if (this.shape.size < 1)
-            return;
-
-        Vector2[] rotated = this.shape.getRotatedPoints(-this.heading);
-
-        Vector2 startPos = mUtils.vecAdd(rotated[this.shape.size - 1], this.position);
-        Vector2 endPos = mUtils.vecAdd(rotated[0], this.position);
 
         drawLineV(startPos, endPos, RAYWHITE);
         for (int i = 1; i < this.shape.size; i++) {
@@ -82,7 +56,6 @@ class Thing {
         }
 
     }
-};
 
 class LogicMaster {
     StaticList<Thing> objList;
