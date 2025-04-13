@@ -55,29 +55,33 @@ class Player extends Thing {
         float input = 0;
 
         if (isKeyDown(KEY_W))
-            input.setY(input.getY() - 1);
+            input += moveSpeed;
         if (isKeyDown(KEY_S))
-            input.setY(input.getY() + 1);
+            input -= moveSpeed;
+
         if (isKeyDown(KEY_A))
-            input.setX(input.getX() - 1);
+            this.heading -= rotSpeed * getFrameTime();
         if (isKeyDown(KEY_D))
-            input.setX(input.getX() + 1);
-        float x = input.getX();
-        float y = input.getY();
-        float length = (float) Math.sqrt(x * x + y * y);
+            this.heading += rotSpeed * getFrameTime();
 
-        if (length > 0) {
-
-            x /= length;
-            y /= length;
-
-            heading = (float) Math.atan2(y, -x) + (float) Math.PI / 2;
-
-            position = mUtils.vecAdd(position, new Vector2(x * moveSpeed, y * moveSpeed));
+        if (isKeyPressed(KEY_ZERO)) {
+            this.position.setX(0);
+            this.position.setY(0);
+            this.speed.setX(0);
+            this.speed.setY(0);
         }
 
-        if (isKeyPressed(KEY_SPACE)) {
-            LogicMaster.RequestBullet(position, heading);
-        }
+        // This is a hack to get the correct player orientation
+        // Assuming that the 0th element in the array is the most front one
+        // we can use that to extrapolate the direction of movement required for us.
+        // Keep in mind that it NEEDS to be normalized
+        // otherwise we will mess with the movement speed, and we don't want that
+        float length = (float) Math
+                .sqrt(Math.pow(this.shape.points[0].getX(), 2) + Math.pow(this.shape.points[0].getY(), 2));
+        this.speed.setX(this.speed.getX()
+                + input * (this.shape.points[0].getX() / length));
+        this.speed.setY(this.speed.getY()
+                + input * (this.shape.points[0].getY() / length));
+        super.Update();
     }
 }
