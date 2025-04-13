@@ -121,7 +121,7 @@ class LogicMaster {
 
 public class Main {
     public static void main(String args[]) {
-        initWindow(1280, 800, "Demo");
+        initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
 
         Camera2D camera = new Camera2D(
