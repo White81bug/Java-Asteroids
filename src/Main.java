@@ -68,34 +68,20 @@ class LogicMaster {
 
     StaticList<Thing> objList;
 
-    static {
-        bulletShape.scale = 1;
-    }
-
     LogicMaster() {
         objList = new StaticList<Thing>();
-        bullets = new StaticList<>();
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
         return (Asteroid) objList.Push(new Asteroid(position));
     }
 
-    static void RequestBullet(Vector2 position, float heading) {
-        bullets.Push(new Bullet(position, heading, bulletShape));
     Player CreatePlayer(Vector2 position) {
         this.playerRef = (Player) objList.Push(new Player(position));
         return this.playerRef;
     }
 
-
-    void Render() {
-        player.Draw();
-        for (int i = 0; i < bullets.GetLen(); i++) {
-            Bullet b = bullets.Get(i);
-            if (b != null)
-                b.Draw();
-        }
+    void RunLogic() {
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
