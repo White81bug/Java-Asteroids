@@ -120,7 +120,6 @@ public class Main {
         joel.CreatePlayer(new Vector2(200, 200));
         joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
-            joel.Update();
             beginDrawing();
             clearBackground(BLACK);
             beginMode2D(camera);
