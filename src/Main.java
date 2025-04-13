@@ -46,41 +46,6 @@ class StaticList<T> {
 
 }
 
-class Shape {
-    private Vector2[] ref;
-    Vector2[] points;
-    int size = 0;
-    float scale = 20;
-
-    static final int MAX_SIZE = 32;
-
-    Shape(Vector2[] newPoints) {
-        this.ref = newPoints;
-        this.size = ref.length;
-        this.points = this.ref;
-        for (int i = 0; i < this.size; i++) {
-            this.points[i] = mUtils.vecMul(this.ref[i], this.scale);
-        }
-    }
-
-    Vector2[] getRotatedPoints(float angle) {
-        Vector2[] rotated = new Vector2[this.size];
-        float cos = (float) Math.cos(angle);
-        float sin = (float) Math.sin(angle);
-
-        for (int i = 0; i < this.size; i++) {
-            float x = this.ref[i].getX() * this.scale;
-            float y = this.ref[i].getY() * this.scale;
-
-            float rotatedX = x * cos - y * sin;
-            float rotatedY = x * sin + y * cos;
-
-            rotated[i] = new Vector2(rotatedX, rotatedY);
-        }
-
-        return rotated;
-    }
-}
 
 class Thing {
     float rotateSpeed;
