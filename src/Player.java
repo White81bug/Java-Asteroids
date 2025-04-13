@@ -46,10 +46,13 @@ class Player extends Thing {
         this.position = new Vector2(100, 100);
     }
 
-    // Не знаю, надо будет для физики или нет, но тут можно в return поставить
-    // position
-    void UpdatePlayerPosition() {
-        Vector2 input = new Vector2(0, 0);
+    Player(Vector2 pos) {
+        this();
+        this.position = pos;
+    }
+
+    void Update() {
+        float input = 0;
 
         if (isKeyDown(KEY_W))
             input.setY(input.getY() - 1);
