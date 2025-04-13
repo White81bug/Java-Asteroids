@@ -124,8 +124,7 @@ public class Main {
         initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
 
-        Camera2D camera = new Camera2D(
-                new Vector2(0, 0), // offset
+        Camera2D camera = new Camera2D(new Vector2(0, 0), // offset
                 new Vector2(-10, -10), // target
                 0, // rotation
                 2f // zoom
