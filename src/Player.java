@@ -18,12 +18,6 @@ class Bullet extends Thing {
         this.position = player.position;
         this.shape.rotation = player.shape.rotation;
         this.speed = 8.0f;
-
-    void UpdatePosition() {
-        float direction = heading - (float) Math.PI / 2;
-        float vx = -((float) Math.cos(direction) * speed);
-        float vy = (float) Math.sin(direction) * speed;
-        this.position = mUtils.vecAdd(this.position, new Vector2(vx, vy));
     }
 
     boolean isOffscreen() {
