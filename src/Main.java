@@ -7,24 +7,6 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-
-class mUtils {
-    static Vector2 vecAdd(Vector2 a, Vector2 b) {
-        return new Vector2(a.getX() + b.getX(), a.getY() + b.getY());
-    }
-
-    static Vector2 vecMul(Vector2 a, float b) {
-        return new Vector2(a.getX() * b, a.getY() * b);
-    }
-
-    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
-        float dx = a.getX() - b.getX();
-        float dy = a.getY() - b.getY();
-        return dx * dx + dy * dy <= radius * radius;
-    }
-
-}
-
 class StaticList<T> {
     static final int ARRAY_SIZE = 1024;
     private Object[] list;
