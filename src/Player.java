@@ -20,10 +20,9 @@ class Bullet extends Thing {
         this.speed = 8.0f;
     }
 
-    boolean isOffscreen() {
-        return position.getX() < -50 || position.getX() > 2000 || position.getY() < -50 || position.getY() > 2000;
+    void Update() {
+        super.Update();
     }
-
 }
 
 class Player extends Thing {
