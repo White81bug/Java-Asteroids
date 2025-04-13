@@ -11,6 +11,7 @@ class Bullet extends Thing {
             new Vector2(0, -0.5f), new Vector2(0.5f, 0.5f),
             new Vector2(-0.5f, 0.5f)
     });
+
     float speed = 8.0f;
 
     Bullet(Player player) {
