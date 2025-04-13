@@ -13,3 +13,6 @@ setup:
 	if [ ! -e build/ ]; then mkdir build; fi
 	if [ ! -e build/jaylib-ffm-$(VERSION).jar  ]; then cd build; wget https://github.com/electronstudio/jaylib-ffm/releases/download/v$(VERSION)/jaylib-ffm-$(VERSION).jar; fi
 	if [ ! -e build/jaylib-ffm.jar ]; then cd build; ln -s jaylib-ffm-$(VERSION).jar jaylib-ffm.jar; fi
+
+debug:
+	jdb -sourcepath src -classpath build/jaylib-ffm.jar:build Main
