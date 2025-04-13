@@ -7,10 +7,6 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-class GLOBALS {
-    static final int MIN_WORLD_POS = 0;
-    static final int MAX_WORLD_POS = 1024;
-}
 
 class Renderer extends GLOBALS {
     static final int GRID_STEP = (MAX_WORLD_POS - MIN_WORLD_POS) / 40;
