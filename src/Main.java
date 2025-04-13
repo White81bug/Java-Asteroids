@@ -112,32 +112,6 @@ class LogicMaster {
         bullets.Push(new Bullet(position, heading, bulletShape));
     }
 
-    void Update() {
-        player.UpdatePlayerPosition();
-
-        for (int i = 0; i < bullets.GetLen(); i++) {
-            Bullet b = bullets.Get(i);
-            if (b == null)
-                continue;
-
-            b.UpdatePosition();
-
-            for (int j = 0; j < objList.GetLen(); j++) {
-                Thing obj = objList.Get(j);
-                if (obj == null)
-                    continue;
-
-                if (mUtils.checkCollision(b.position, obj.position, b.radius + obj.radius)) {
-                    bullets.Pop(i);
-                    objList.Pop(j);
-                    break;
-                }
-            }
-
-            if (b.isOffscreen())
-                bullets.Pop(i);
-        }
-    }
 
     void Render() {
         player.Draw();
