@@ -125,7 +125,7 @@ public class Main {
             beginMode2D(camera);
             Renderer.drawGrid();
 
-            joel.Render();
+            joel.RunLogic();
 
             endMode2D();
             drawFPS(20, 20);
