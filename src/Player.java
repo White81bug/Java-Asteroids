@@ -7,15 +7,17 @@ import com.raylib.Vector2;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 class Bullet extends Thing {
+    static final Shape bulletShape = new Shape(new Vector2[] {
+            new Vector2(0, -0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(-0.5f, 0.5f)
+    });
     float speed = 8.0f;
 
-    Bullet(Vector2 startPos, float angle, Shape shape) {
-        super(shape);
-        this.position = new Vector2(startPos.getX(), startPos.getY());
-        this.heading = angle;
+    Bullet(Player player) {
+        super(Bullet.bulletShape);
+        this.position = player.position;
+        this.shape.rotation = player.shape.rotation;
         this.speed = 8.0f;
-        this.radius = 4;
-    }
 
     void UpdatePosition() {
         float direction = heading - (float) Math.PI / 2;
