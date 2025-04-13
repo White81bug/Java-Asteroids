@@ -117,6 +117,7 @@ public class Main {
         );
         LogicMaster joel = new LogicMaster();
 
+        joel.CreatePlayer(new Vector2(200, 200));
         joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
             joel.Update();
