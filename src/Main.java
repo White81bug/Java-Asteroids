@@ -46,7 +46,24 @@ class StaticList<T> {
 
 }
 
+class LogicMaster {
 
+    Player playerRef = null;
+
+    //         (x1,y1)
+    //         |\
+    //         | \
+    //         |  \ sqrt((x2-x1)^2 + (y2-y1)^2) = r1+r2
+    // |y2-y1| |   \
+    //         |    \
+    //         |   X \
+    // (x1,y2) +------+ (x2,y2)
+    //          |x2-x1|
+
+    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
+        Vector2 dif = mUtils.vecSub(a, b);
+        dif = mUtils.vecMul(dif, dif);
+        return dif.getX() + dif.getY() <= (radius + radius) * (radius + radius);
     }
 
 class LogicMaster {
