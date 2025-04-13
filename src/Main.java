@@ -94,6 +94,7 @@ class LogicMaster {
                 continue;
 
             try {
+                obj.Update();
                 obj.Draw();
             } catch (NullPointerException e) {
 
