@@ -66,11 +66,7 @@ class LogicMaster {
         return dif.getX() + dif.getY() <= (radius + radius) * (radius + radius);
     }
 
-class LogicMaster {
     StaticList<Thing> objList;
-    int playerScore;
-    Player player;
-    static StaticList<Bullet> bullets;
 
     static final Shape asteroid = new Shape(new Vector2[] {
             new Vector2(2, 2),
@@ -102,8 +98,6 @@ class LogicMaster {
 
     LogicMaster() {
         objList = new StaticList<Thing>();
-        playerScore = 0;
-        player = new Player(LogicMaster.playerShape);
         bullets = new StaticList<>();
     }
 
