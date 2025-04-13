@@ -68,30 +68,6 @@ class LogicMaster {
 
     StaticList<Thing> objList;
 
-    static final Shape asteroid = new Shape(new Vector2[] {
-            new Vector2(2, 2),
-            new Vector2(-2, 2),
-            new Vector2(-2, -2),
-            new Vector2(2, -2)
-    });
-    static {
-        asteroid.scale = 1;
-    }
-
-    static final Shape playerShape = new Shape(new Vector2[] {
-            new Vector2(0, -2),
-            new Vector2(-2, 2),
-            new Vector2(0, 1),
-            new Vector2(2, 2)
-    });
-    static {
-        playerShape.scale = 1;
-    }
-    static final Shape bulletShape = new Shape(new Vector2[] {
-            new Vector2(0, -0.5f),
-            new Vector2(0.5f, 0.5f),
-            new Vector2(-0.5f, 0.5f)
-    });
     static {
         bulletShape.scale = 1;
     }
@@ -101,15 +77,15 @@ class LogicMaster {
         bullets = new StaticList<>();
     }
 
-    void CreateAsteroid(Vector2 position) {
-        Thing asteroidObj = new Thing(LogicMaster.asteroid);
-        asteroidObj.radius = 16;
-        asteroidObj.position = position;
-        objList.Push(asteroidObj);
+    Asteroid CreateAsteroid(Vector2 position) {
+        return (Asteroid) objList.Push(new Asteroid(position));
     }
 
     static void RequestBullet(Vector2 position, float heading) {
         bullets.Push(new Bullet(position, heading, bulletShape));
+    Player CreatePlayer(Vector2 position) {
+        this.playerRef = (Player) objList.Push(new Player(position));
+        return this.playerRef;
     }
 
 
