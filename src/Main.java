@@ -47,14 +47,6 @@ class StaticList<T> {
 }
 
 
-
-        drawLineV(startPos, endPos, RAYWHITE);
-        for (int i = 1; i < this.shape.size; i++) {
-            startPos = endPos;
-            endPos = mUtils.vecAdd(rotated[i], this.position);
-            drawLineV(startPos, endPos, RAYWHITE);
-        }
-
     }
 
 class LogicMaster {
