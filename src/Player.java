@@ -26,13 +26,24 @@ class Bullet extends Thing {
 }
 
 class Player extends Thing {
+    //    *
+    //   / \
+    //  //^\\
+    // */   \*
+    //
+    static final Shape playerShape = new Shape(new Vector2[] {
+            new Vector2(0, -2),
+            new Vector2(-2, 2),
+            new Vector2(0, 1),
+            new Vector2(2, 2)
+    });
 
-    float moveSpeed = 2.5f;
+    final float moveSpeed = 3.5f;
+    final float rotSpeed = 2.5f;
 
-    Player(Shape shape) {
-        super(shape);
+    Player() {
+        super(Player.playerShape);
         this.position = new Vector2(100, 100);
-        this.radius = 10;
     }
 
     // Не знаю, надо будет для физики или нет, но тут можно в return поставить
