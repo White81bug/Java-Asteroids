@@ -5,7 +5,7 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-class Thing {
+public class Thing {
     float rotateSpeed;
     Vector2 position;
     Vector2 speed;
