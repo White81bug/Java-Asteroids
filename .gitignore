@@ -4,8 +4,9 @@
 tmp/
 
 *.class
-build
+build/
 .classpath
 .project
 .settings/
 target/
+bin/
