@@ -71,6 +71,7 @@ class LogicMaster {
     }
 
     void RunLogic() {
+        this.objList.Sort();
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -83,6 +84,7 @@ class LogicMaster {
                 continue;
 
             try {
+                Collider.RunCollider(this, i);
                 obj.Update();
                 obj.Draw();
             } catch (NullPointerException e) {
