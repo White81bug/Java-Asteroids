@@ -41,9 +41,9 @@ public class StaticList<T> {
 
     // Hopefully swap two objects in a list, though I'm not sure if it'll work...
     void Swap(int index_a, int index_b) {
-        T temp = -1 < index_a && index_a < StaticList.ARRAY_SIZE ? list[index_a] : null;
+        T temp = -1 < index_a && index_a < StaticList.ARRAY_SIZE ? (T)list[index_a] : null;
         if (temp != null)
-            list[index_a] = -1 < index_b && index_b < StaticList.ARRAY_SIZE ? list[index_a] : null;
+            list[index_a] = -1 < index_b && index_b < StaticList.ARRAY_SIZE ? (T)list[index_a] : null;
 
         if (-1 < index_b && index_b < StaticList.ARRAY_SIZE)
             list[index_b] = temp;
