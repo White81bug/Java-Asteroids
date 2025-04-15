@@ -21,12 +21,6 @@ class LogicMaster {
     // (x1,y2) +------+ (x2,y2)
     //          |x2-x1|
 
-    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
-        Vector2 dif = mUtils.vecSub(a, b);
-        dif = mUtils.vecMul(dif, dif);
-        return dif.getX() + dif.getY() <= (radius + radius) * (radius + radius);
-    }
-
     StaticList<Thing> objList;
 
     LogicMaster() {
