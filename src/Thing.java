@@ -25,8 +25,7 @@ public class Thing {
         float rotationDelta;
         this.heading = mUtils.RollOver(this.heading, 0, mUtils.TAU);
         this.position = mUtils.vecAdd(this.position,
-                mUtils.vecMul(
-                        this.speed, getFrameTime()));
+                mUtils.vecMul(this.speed, getFrameTime()));
         rotationDelta = this.shape.rotation - this.heading;
         if (rotationDelta != 0) {
             this.shape.rotation = this.heading;
