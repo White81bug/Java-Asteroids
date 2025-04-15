@@ -49,4 +49,25 @@ public class StaticList<T> {
             list[index_b] = temp;
     }
 
+    void Sort() {
+        int i        = 1;
+        int gotToPos = 0;
+        while (i < this.size) {
+
+            Thing prev    = (Thing)this.list[i - 1];
+            Thing current = (Thing)this.list[i];
+
+            if (current.position.getX() >= prev.position.getX()) {
+                if (i > gotToPos) {
+                    gotToPos = i;
+                } else
+                    i = gotToPos;
+                i++;
+                continue;
+            }
+            this.list[i]     = prev;
+            this.list[i - 1] = current;
+            if (i > 0) i--;
+        }
+    }
 }
