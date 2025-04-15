@@ -10,8 +10,8 @@ import java.lang.ArrayIndexOutOfBoundsException;
 final class Collider {
     static boolean CheckCollide(Thing a, Thing b) {
 
-        float length = (float) Math.sqrt(
-                Math.pow(b.position.getX() - a.position.getX(), 2)
+        float length = (float) Math
+                .sqrt(Math.pow(b.position.getX() - a.position.getX(), 2)
                         + Math.pow(b.position.getY() - a.position.getY(), 2));
 
         if (a.shape.colliderRadius + b.shape.colliderRadius < length)
@@ -29,8 +29,9 @@ final class Collider {
             // This is an optimization, so we don't have to check the rest of the list
             // if the current object is out of reach.
             // It assumes that the list is sorted by X
-            if (second.shape.colliderRadius + first.shape.colliderRadius < second.position.getX()
-                    + first.position.getX())
+            if (second.shape.colliderRadius
+                    + first.shape.colliderRadius < second.position.getX()
+                            + first.position.getX())
                 break;
 
             if (!CheckCollide(first, second))
@@ -84,7 +85,7 @@ class LogicMaster {
                 continue;
 
             try {
-                Collider.RunCollider(this, i);
+                Collider.RunCollider(this.objList, i);
                 obj.Update();
                 obj.Draw();
             } catch (NullPointerException e) {
@@ -122,7 +123,9 @@ public class Main {
             endMode2D();
             drawFPS(20, 20);
 
-            drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation),
+            drawText(
+                    String.format("Rotation: %f",
+                            joel.playerRef.shape.rotation),
                     20, 40, 18, RAYWHITE);
             endDrawing();
 

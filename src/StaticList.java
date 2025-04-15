@@ -24,8 +24,7 @@ public class StaticList<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        @SuppressWarnings("unchecked")
-        T ret = (T) list[i];
+        @SuppressWarnings("unchecked") T ret = (T) list[i];
         return ret;
     }
 
@@ -33,29 +32,30 @@ public class StaticList<T> {
         if (i < 0 || size <= i) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        @SuppressWarnings("unchecked")
-        T tmp = (T) list[i];
+        @SuppressWarnings("unchecked") T tmp = (T) list[i];
         list[i] = null;
         return tmp;
     }
 
     // Hopefully swap two objects in a list, though I'm not sure if it'll work...
     void Swap(int index_a, int index_b) {
-        T temp = -1 < index_a && index_a < StaticList.ARRAY_SIZE ? (T)list[index_a] : null;
+        T temp = -1 < index_a && index_a < StaticList.ARRAY_SIZE
+                ? (T) list[index_a] : null;
         if (temp != null)
-            list[index_a] = -1 < index_b && index_b < StaticList.ARRAY_SIZE ? (T)list[index_a] : null;
+            list[index_a] = -1 < index_b && index_b < StaticList.ARRAY_SIZE
+                    ? (T) list[index_a] : null;
 
         if (-1 < index_b && index_b < StaticList.ARRAY_SIZE)
             list[index_b] = temp;
     }
 
     void Sort() {
-        int i        = 1;
+        int i = 1;
         int gotToPos = 0;
         while (i < this.size) {
 
-            Thing prev    = (Thing)this.list[i - 1];
-            Thing current = (Thing)this.list[i];
+            Thing prev = (Thing) this.list[i - 1];
+            Thing current = (Thing) this.list[i];
 
             if (current.position.getX() >= prev.position.getX()) {
                 if (i > gotToPos) {
@@ -65,9 +65,10 @@ public class StaticList<T> {
                 i++;
                 continue;
             }
-            this.list[i]     = prev;
+            this.list[i] = prev;
             this.list[i - 1] = current;
-            if (i > 0) i--;
+            if (i > 0)
+                i--;
         }
     }
 }

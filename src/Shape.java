@@ -50,7 +50,8 @@ public class Shape {
             this.points[i]
                     .setY(this.ref[i].getX() * sin + this.ref[i].getY() * cos);
 
-            if (mUtils.LogLevelToInt(GLOBALS.LOG_LEVEL) >= mUtils.LogLevelToInt(LogLevel.TRACE)) {
+            if (mUtils.LogLevelToInt(GLOBALS.LOG_LEVEL) >= mUtils
+                    .LogLevelToInt(LogLevel.TRACE)) {
                 System.out.printf("New point %d pos: %f:%f\n", i,
                         this.points[i].getX(), this.points[i].getY());
                 System.out.printf("Ref point %d pos: %f:%f\n\n", i,

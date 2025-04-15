@@ -49,6 +49,5 @@ public class Thing {
             endPos = mUtils.vecAdd(this.shape.points[i], this.position);
             drawLineV(startPos, endPos, RAYWHITE);
         }
-
     }
 };
