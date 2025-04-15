@@ -6,11 +6,13 @@ import com.raylib.Vector2;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 public class Thing {
-    float rotateSpeed;
+    float rotateSpeed; // The angular momentum to which object will be adjusted
+                      // (with respect to frame delta) in the next update
     Vector2 position;
-    Vector2 speed;
-    Shape shape;
-    float heading;
+    Vector2 speed;     // Speed indeed
+    Shape shape;       // The shape obj of this one
+    float heading;     // Where the object is headed
+    int priority;      // To decide from which object to call `this.Collided(Thing obj)` from
 
     Thing(Shape shape) {
         this.rotateSpeed = 0;
