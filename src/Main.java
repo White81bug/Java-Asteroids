@@ -1,6 +1,7 @@
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.KeyboardKey.*;
+import static com.raylib.Raylib.MouseButton.*;
 
 import com.raylib.Camera2D;
 import com.raylib.Vector2;
@@ -44,6 +45,44 @@ class StaticList<T> {
         return tmp;
     }
 
+}
+
+class CameraController {
+    Camera2D camera;
+    boolean followPlayer = true;
+
+    CameraController(Camera2D camera) {
+        this.camera = camera;
+    }
+
+    void Update(Vector2 targetOriginal) {
+        Vector2 target = new Vector2(targetOriginal.getX(), targetOriginal.getY());
+        if (isKeyPressed(KEY_C)) {
+            followPlayer = !followPlayer;
+        }
+
+        float wheel = getMouseWheelMove();
+        if (wheel != 0.0f) {
+            float cameraZoom = camera.getZoom() + wheel * 0.1f;
+            if (cameraZoom < 0.1f) camera.setZoom(0.1f);
+            if (cameraZoom > 5.0f) camera.setZoom(5.0f);
+        }
+
+        if (isMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
+            if (followPlayer) followPlayer = false;
+            Vector2 delta = getMouseDelta();
+            delta = mUtils.vecMul(delta, -1.0f / camera.getZoom());
+            camera.setTarget(mUtils.vecAdd(camera.getTarget(), delta));
+        }
+
+        if (followPlayer) {
+            camera.setTarget(target);
+        }
+    }
+
+    void DrawStatus() {
+        drawText(followPlayer ? "Camera: FOLLOW [C]" : "Camera: FREE [C]", 20, 20, 20, GREEN);
+    }
 }
 
 class LogicMaster {
@@ -111,16 +150,20 @@ public class Main {
         initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
 
-        Camera2D camera = new Camera2D(new Vector2(0, 0), // offset
-                new Vector2(-10, -10), // target
-                0, // rotation
-                2f // zoom
+        Camera2D camera = new Camera2D(
+                //changed initial coords for camera. Without this change player in top-right corner
+                new Vector2(getScreenWidth() / 2.0f, getScreenHeight() / 2.0f),
+                new Vector2(0, 0),
+                0,
+                2f
         );
         LogicMaster joel = new LogicMaster();
+        CameraController camCtrl = new CameraController(camera);
 
         joel.CreatePlayer(new Vector2(200, 200));
         joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
+            camCtrl.Update(joel.playerRef.position);
             beginDrawing();
             clearBackground(BLACK);
             beginMode2D(camera);
