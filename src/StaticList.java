@@ -51,7 +51,7 @@ public class StaticList<T> {
 
     void Sort() {
         int i = 1;
-        int gotToPos = 0;
+        int gotToPos = 1;
         while (i < this.size) {
 
             Thing prev = (Thing) this.list[i - 1];
@@ -67,7 +67,7 @@ public class StaticList<T> {
             }
             this.list[i] = prev;
             this.list[i - 1] = current;
-            if (i > 0)
+            if (i > 1)
                 i--;
         }
     }
