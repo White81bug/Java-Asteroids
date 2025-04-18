@@ -33,6 +33,8 @@ abstract public class Thing {
         }
     }
 
+    abstract void OnCollision();
+
     void Draw() {
         if (this.shape == null)
             throw new NullPointerException();
