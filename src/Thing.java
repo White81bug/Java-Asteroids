@@ -5,7 +5,7 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-public class Thing {
+abstract public class Thing {
     float rotateSpeed; // The angular momentum to which object will be adjusted
                       // (with respect to frame delta) in the next update
     Vector2 position;
