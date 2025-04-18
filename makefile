@@ -4,7 +4,7 @@ all:
 	make build/Main.class
 
 build/Main.class: src/* makefile
-	javac -Xlint -d build -cp build/jaylib-ffm.jar src/*
+	javac -g -Xlint -d build -cp build/jaylib-ffm.jar src/*
 
 run: build/Main.class
 	java -cp build/jaylib-ffm.jar:build Main
