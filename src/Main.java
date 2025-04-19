@@ -121,6 +121,14 @@ class LogicMaster {
                 System.exit(-1);
             }
         }
+
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = obj = objList.Get(i);
+            if (obj.askToDie)
+                objList.Pop(i);
+        }
+        objList.CleanupMemory();
+
     }
 }
 
