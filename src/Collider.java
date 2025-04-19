@@ -13,12 +13,12 @@ final class Collider {
         return true;
     }
 
-    static int RunCollider(StaticList<Thing> list, int index) {
+    static int RunCollider(StaticList<Thing> list, int startFrom) {
         int collisionCount = 0;
-        Thing first = list.Get(index);
+        Thing first = list.Get(startFrom);
         Thing second;
-        for (int i = index + 1; i < list.GetLen(); i++) {
-            second = list.Get(index);
+        for (int i = startFrom + 1; i < list.GetLen(); i++) {
+            second = list.Get(i);
 
             // This is an optimization, so we don't have to check the rest of the list
             // if the current object is out of reach.
