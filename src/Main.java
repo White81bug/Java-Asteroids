@@ -8,45 +8,6 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-class StaticList<T> {
-    static final int ARRAY_SIZE = 1024;
-    private Object[] list;
-    private int real_len;
-
-    StaticList() {
-        list = new Object[StaticList.ARRAY_SIZE];
-        real_len = 0;
-    }
-
-    T Push(T obj) {
-        list[real_len] = obj;
-        real_len++;
-        return obj;
-    }
-
-    int GetLen() {
-        return real_len;
-    }
-
-    T Get(int i) throws ArrayIndexOutOfBoundsException {
-        if (i < 0) {
-            System.err.printf("Got i == %d when real_len == %d\n", i, real_len);
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        return (T) list[i];
-    }
-
-    T Pop(int i) throws ArrayIndexOutOfBoundsException {
-        if (i < 0 || real_len <= i) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        T tmp = (T) list[i];
-        list[i] = null;
-        return tmp;
-    }
-
-}
-
 class CameraController {
     private Vector2 target = new Vector2(0, 0);
     private float zoom = 2.0f;
