@@ -8,9 +8,8 @@ import java.lang.ArrayIndexOutOfBoundsException;
 
 class Bullet extends Thing {
     static final Shape bulletShape = new Shape(new Vector2[] {
-            new Vector2(0, -0.5f), new Vector2(0.5f, 0.5f),
-            new Vector2(-0.5f, 0.5f)
-    });
+            new Vector2(0, -2f), new Vector2(2f, 2f), new Vector2(-2f, 2f)
+    }, (float) 5);
 
     float speed = 8.0f;
 
