@@ -43,4 +43,41 @@ final class Collider {
         }
         return collisionCount;
     }
+
+    static void Bounce(Thing first, Thing second) {
+
+        Vector2 pos_delta = mUtils.vecSub(second.position, first.position);
+        Vector2 speed_delta = mUtils.vecSub(second.speed, first.speed);
+
+        if (mUtils.GetSign(pos_delta.getX()) == mUtils
+                .GetSign(speed_delta.getX())
+                && mUtils.GetSign(pos_delta.getY()) == mUtils
+                        .GetSign(speed_delta.getY()))
+            return;
+
+        {
+
+            // I wasted 24 fucking hours trying to make this work
+            float Sa = first.speed.getX();
+            float Sb = second.speed.getX();
+
+            float ma = mUtils.Clamp(first.mass, 1, 1024);
+            float mb = mUtils.Clamp(second.mass, 1, 1024);
+
+            first.speed.setX(Sa + (Sb - Sa) / ma);
+            second.speed.setX(Sb + (Sa - Sb) / mb);
+        }
+
+        {
+            float Sa = first.speed.getY();
+            float Sb = second.speed.getY();
+
+            float ma = mUtils.Clamp(first.mass, 1, 1024);
+            float mb = mUtils.Clamp(second.mass, 1, 1024);
+
+            first.speed.setY(Sa + (Sb - Sa) / ma);
+            second.speed.setY(Sb + (Sa - Sb) / mb);
+
+        }
+    }
 }
