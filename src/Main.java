@@ -91,6 +91,11 @@ class LogicMaster {
 
     void RunLogic() {
         this.objList.Sort();
+
+        if (isKeyPressed(KEY_SPACE)) {
+            CreateBullet();
+        }
+
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
