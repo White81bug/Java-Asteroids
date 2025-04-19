@@ -14,6 +14,7 @@ class Bullet extends Thing {
     float speed = 8.0f;
 
     void OnCollision(Thing other) {
+        other.OnHit();
         this.askToDie = true;
     }
 
