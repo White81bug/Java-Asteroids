@@ -108,6 +108,10 @@ class LogicMaster {
                 continue;
 
             try {
+
+                if (obj.askToDie) {
+                    continue;
+                }
                 Collider.RunCollider(this.objList, i);
                 obj.Update();
                 obj.Draw();
