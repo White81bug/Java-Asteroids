@@ -1,4 +1,4 @@
-public class StaticList<T> {
+@SuppressWarnings("unchecked") public class StaticList<T> {
     static final int ARRAY_SIZE = 1024;
     private Object[] list;
     private int size;
