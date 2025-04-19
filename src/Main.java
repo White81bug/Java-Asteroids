@@ -8,52 +8,12 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-class StaticList<T> {
-    static final int ARRAY_SIZE = 1024;
-    private Object[] list;
-    private int real_len;
-
-    StaticList() {
-        list = new Object[StaticList.ARRAY_SIZE];
-        real_len = 0;
-    }
-
-    T Push(T obj) {
-        list[real_len] = obj;
-        real_len++;
-        return obj;
-    }
-
-    int GetLen() {
-        return real_len;
-    }
-
-    T Get(int i) throws ArrayIndexOutOfBoundsException {
-        if (i < 0) {
-            System.err.printf("Got i == %d when real_len == %d\n", i, real_len);
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        return (T) list[i];
-    }
-
-    T Pop(int i) throws ArrayIndexOutOfBoundsException {
-        if (i < 0 || real_len <= i) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        T tmp = (T) list[i];
-        list[i] = null;
-        return tmp;
-    }
-
-}
-
 class CameraController {
     private Vector2 target = new Vector2(0, 0);
     private float zoom = 2.0f;
     private boolean followPlayer = true;
 
     Camera2D camera = new Camera2D();
-
 
     void Update(Vector2 targetOriginal) {
 
@@ -67,9 +27,9 @@ class CameraController {
             zoom = Math.max(0.1f, Math.min(zoom, 5.0f));
         }
 
-
         if (isMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
-            if (followPlayer) followPlayer = false;
+            if (followPlayer)
+                followPlayer = false;
             Vector2 delta = getMouseDelta();
             delta = mUtils.vecMul(delta, -1.0f / zoom);
             target = mUtils.vecAdd(target, delta);
@@ -78,8 +38,9 @@ class CameraController {
         if (followPlayer) {
             target = new Vector2(targetOriginal.getX(), targetOriginal.getY());
         }
-        
-        camera.setOffset(new Vector2(getScreenWidth() / 2.0f, getScreenHeight() / 2.0f));
+
+        camera.setOffset(
+                new Vector2(getScreenWidth() / 2.0f, getScreenHeight() / 2.0f));
         camera.setTarget(target);
         camera.setRotation(0);
         camera.setZoom(zoom);
@@ -90,7 +51,8 @@ class CameraController {
     }
 
     void DrawStatus() {
-        drawText(followPlayer ? "Camera: FOLLOW [C]" : "Camera: FREE [C]", 20, 20, 20, GREEN);
+        drawText(followPlayer ? "Camera: FOLLOW [C]" : "Camera: FREE [C]", 20,
+                20, 20, GREEN);
     }
 }
 
@@ -108,12 +70,6 @@ class LogicMaster {
     // (x1,y2) +------+ (x2,y2)
     //          |x2-x1|
 
-    static boolean checkCollision(Vector2 a, Vector2 b, float radius) {
-        Vector2 dif = mUtils.vecSub(a, b);
-        dif = mUtils.vecMul(dif, dif);
-        return dif.getX() + dif.getY() <= (radius + radius) * (radius + radius);
-    }
-
     StaticList<Thing> objList;
 
     LogicMaster() {
@@ -130,6 +86,7 @@ class LogicMaster {
     }
 
     void RunLogic() {
+        this.objList.Sort();
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -142,10 +99,10 @@ class LogicMaster {
                 continue;
 
             try {
+                Collider.RunCollider(this.objList, i);
                 obj.Update();
                 obj.Draw();
             } catch (NullPointerException e) {
-
                 System.out.printf("Got a null on i == %d\n", i);
                 e.printStackTrace();
                 System.exit(-1);
@@ -162,10 +119,7 @@ public class Main {
         Camera2D camera = new Camera2D(
                 //changed initial coords for camera. Without this change player in top-right corner
                 new Vector2(getScreenWidth() / 2.0f, getScreenHeight() / 2.0f),
-                new Vector2(0, 0),
-                0,
-                2f
-        );
+                new Vector2(0, 0), 0, 2f);
         LogicMaster joel = new LogicMaster();
         CameraController camCtrl = new CameraController();
 
@@ -183,7 +137,9 @@ public class Main {
             endMode2D();
             drawFPS(20, 20);
 
-            drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation),
+            drawText(
+                    String.format("Rotation: %f",
+                            joel.playerRef.shape.rotation),
                     20, 40, 18, RAYWHITE);
             endDrawing();
 

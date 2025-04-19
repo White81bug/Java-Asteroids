@@ -2,10 +2,12 @@
 .idea
 *.log
 tmp/
+*.iml
 
 *.class
-build
+build/
 .classpath
 .project
 .settings/
 target/
+bin/

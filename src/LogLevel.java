@@ -1,10 +1,3 @@
 public enum LogLevel {
-    FATAL,
-    ERROR,
-    WARN,
-    BENCH,
-    INFO,
-    FIXME,
-    DEBUG,
-    TRACE
+    FATAL, ERROR, WARN, BENCH, INFO, FIXME, DEBUG, TRACE
 }

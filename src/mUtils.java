@@ -4,6 +4,15 @@ public final class mUtils {
     // For an integer
     static final float TAU = (float) Math.PI * 2;
 
+    static int GetSign(int i) {
+        return i >> 31 | 1;
+    }
+
+    // This expands into something like 5 lines of assembly including the ret
+    static int GetSign(float f) {
+        return (int) f >> 31 | 1;
+    }
+
     static int RollOver(int d, int min, int max) {
         final int t = d < min ? max : d;
         return t > max ? min : t;

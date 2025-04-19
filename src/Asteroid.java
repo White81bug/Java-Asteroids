@@ -6,6 +6,12 @@ public class Asteroid extends Thing {
             new Vector2(2, -2)
     });
 
+    final int priority = 10;      // To decide from which object to call collision processing function from
+
+    void OnCollision(Thing other) {
+        Collider.Bounce(this, other);
+    }
+
     Asteroid() {
         super(Asteroid.asteroidShape);
     }

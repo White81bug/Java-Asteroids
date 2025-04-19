@@ -5,12 +5,15 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-class Thing {
-    float rotateSpeed;
+abstract public class Thing {
+    float rotateSpeed; // The angular momentum to which object will be adjusted
+                      // (with respect to frame delta) in the next update
     Vector2 position;
-    Vector2 speed;
-    Shape shape;
-    float heading;
+    Vector2 speed;     // Speed indeed
+    Shape shape;       // The shape obj of this one
+    float heading;     // Where the object is headed
+    int priority;      // To decide from which object to call collision processing function from
+    float mass;
 
     Thing(Shape shape) {
         this.rotateSpeed = 0;
@@ -22,9 +25,36 @@ class Thing {
     void Update() {
         float rotationDelta;
         this.heading = mUtils.RollOver(this.heading, 0, mUtils.TAU);
-        this.position = mUtils.vecAdd(this.position,
-                mUtils.vecMul(
-                        this.speed, getFrameTime()));
+
+        boolean recalc = false;
+
+        Vector2 temp = mUtils.vecAdd(this.position,
+                mUtils.vecMul(this.speed, getFrameTime()));
+
+        if (temp.getX() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS) {
+            this.speed.setX(-this.speed.getX());
+            recalc = true;
+        }
+
+        if (temp.getY() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS) {
+            this.speed.setY(-this.speed.getY());
+            recalc = true;
+        }
+
+        if (temp.getX() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS) {
+            this.speed.setX(-this.speed.getX());
+            recalc = true;
+        }
+
+        if (temp.getY() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS) {
+            this.speed.setY(-this.speed.getY());
+            recalc = true;
+        }
+
+        if (recalc)
+            temp = mUtils.vecAdd(this.position,
+                    mUtils.vecMul(this.speed, getFrameTime()));
+        this.position = temp;
         rotationDelta = this.shape.rotation - this.heading;
         if (rotationDelta != 0) {
             this.shape.rotation = this.heading;
@@ -32,11 +62,14 @@ class Thing {
         }
     }
 
+    abstract void OnCollision(Thing other);
+
     void Draw() {
         if (this.shape == null)
             throw new NullPointerException();
         if (this.shape.size < 2)
             return;
+        // drawCircleV(this.position, this.shape.colliderRadius, RED);
 
         Vector2 startPos = mUtils.vecAdd(this.shape.points[this.shape.size - 1],
                 this.position);
@@ -48,6 +81,5 @@ class Thing {
             endPos = mUtils.vecAdd(this.shape.points[i], this.position);
             drawLineV(startPos, endPos, RAYWHITE);
         }
-
     }
 };
