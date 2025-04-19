@@ -55,6 +55,10 @@ class Player extends Thing {
         this.position = pos;
     }
 
+    void OnHit() {
+
+    }
+
     void OnCollision(Thing other) {
         Collider.Bounce(this, other);
     }
