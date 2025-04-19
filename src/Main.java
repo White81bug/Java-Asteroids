@@ -85,6 +85,10 @@ class LogicMaster {
         return this.playerRef;
     }
 
+    Bullet CreateBullet() {
+        return (Bullet) objList.Push(new Bullet(this.playerRef));
+    }
+
     void RunLogic() {
         this.objList.Sort();
         for (int i = 0; i < objList.GetLen(); i++) {
