@@ -65,6 +65,8 @@ abstract public class Thing {
 
     abstract void OnCollision(Thing other);
 
+    abstract void OnHit();
+
     void Draw() {
         if (this.shape == null)
             throw new NullPointerException();
