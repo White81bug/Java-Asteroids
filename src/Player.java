@@ -28,7 +28,9 @@ class Bullet extends Thing {
         this.position = mUtils.vecAdd(player.position,
                 mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
         this.shape.rotation = player.shape.rotation;
-        this.speed = 8.0f;
+        this.speed = mUtils.vecAdd(mUtils.vecMul(
+                new Vector2(Bullet.START_SPEED, Bullet.START_SPEED),
+                player.shape.points[0]), player.speed);
     }
 
     void Update() {
