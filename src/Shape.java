@@ -17,6 +17,7 @@ public class Shape {
     static final int MAX_SIZE = 32;
 
     Shape(Vector2[] newPoints) {
+        super();
         this.size = newPoints.length;
         this.colliderRadius *= this.scale;
 
