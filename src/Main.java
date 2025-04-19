@@ -54,7 +54,6 @@ class LogicMaster {
                 obj.Update();
                 obj.Draw();
             } catch (NullPointerException e) {
-
                 System.out.printf("Got a null on i == %d\n", i);
                 e.printStackTrace();
                 System.exit(-1);
