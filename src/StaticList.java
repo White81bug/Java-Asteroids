@@ -71,4 +71,29 @@
                 i--;
         }
     }
+
+    void CleanupMemory() {
+        int i = 0;
+        int firstNull = StaticList.ARRAY_SIZE;
+        int nullCounter = 0;
+        Thing current = null;
+
+        while (i < this.size) {
+            current = (Thing) this.list[i];
+            if (current == null) {
+                firstNull = i < firstNull ? i : firstNull;
+                nullCounter++;
+            }
+            if (current != null && firstNull < i) {
+                this.list[firstNull] = current;
+                this.list[i] = 0;
+                i = firstNull;
+                nullCounter = 0;
+                firstNull = StaticList.ARRAY_SIZE;
+            }
+            i++;
+        }
+        this.size -= nullCounter;
+    }
+
 }
