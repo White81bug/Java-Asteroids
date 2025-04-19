@@ -77,7 +77,6 @@ final class Collider {
 
             first.speed.setY(Sa + (Sb - Sa) / ma);
             second.speed.setY(Sb + (Sa - Sb) / mb);
-
         }
     }
 }

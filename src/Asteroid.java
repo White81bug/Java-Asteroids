@@ -8,6 +8,10 @@ public class Asteroid extends Thing {
 
     final int priority = 10;      // To decide from which object to call collision processing function from
 
+    void OnHit() {
+        this.askToDie = true;
+    }
+
     void OnCollision(Thing other) {
         Collider.Bounce(this, other);
     }

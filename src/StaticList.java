@@ -1,4 +1,4 @@
-public class StaticList<T> {
+@SuppressWarnings("unchecked") public class StaticList<T> {
     static final int ARRAY_SIZE = 1024;
     private Object[] list;
     private int size;
@@ -24,7 +24,7 @@ public class StaticList<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        @SuppressWarnings("unchecked") T ret = (T) list[i];
+        T ret = (T) list[i];
         return ret;
     }
 
@@ -32,7 +32,7 @@ public class StaticList<T> {
         if (i < 0 || size <= i) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        @SuppressWarnings("unchecked") T tmp = (T) list[i];
+        T tmp = (T) list[i];
         list[i] = null;
         return tmp;
     }
@@ -71,4 +71,29 @@ public class StaticList<T> {
                 i--;
         }
     }
+
+    void CleanupMemory() {
+        int i = 0;
+        int firstNull = StaticList.ARRAY_SIZE;
+        int nullCounter = 0;
+        Thing current = null;
+
+        while (i < this.size) {
+            current = (Thing) this.list[i];
+            if (current == null) {
+                firstNull = i < firstNull ? i : firstNull;
+                nullCounter++;
+            }
+            if (current != null && firstNull < i) {
+                this.list[firstNull] = current;
+                this.list[i] = 0;
+                i = firstNull;
+                nullCounter = 0;
+                firstNull = StaticList.ARRAY_SIZE;
+            }
+            i++;
+        }
+        this.size -= nullCounter;
+    }
+
 }
