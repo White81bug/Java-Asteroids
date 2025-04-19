@@ -12,7 +12,8 @@ abstract public class Thing {
     Vector2 speed;     // Speed indeed
     Shape shape;       // The shape obj of this one
     float heading;     // Where the object is headed
-    int priority;      // To decide from which object to call `this.Collided(Thing obj)` from
+    int priority;      // To decide from which object to call collision processing function from
+    float mass;
 
     Thing(Shape shape) {
         this.rotateSpeed = 0;
