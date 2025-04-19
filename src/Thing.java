@@ -25,8 +25,36 @@ abstract public class Thing {
     void Update() {
         float rotationDelta;
         this.heading = mUtils.RollOver(this.heading, 0, mUtils.TAU);
-        this.position = mUtils.vecAdd(this.position,
+
+        boolean recalc = false;
+
+        Vector2 temp = mUtils.vecAdd(this.position,
                 mUtils.vecMul(this.speed, getFrameTime()));
+
+        if (temp.getX() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS) {
+            this.speed.setX(-this.speed.getX());
+            recalc = true;
+        }
+
+        if (temp.getY() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS) {
+            this.speed.setY(-this.speed.getY());
+            recalc = true;
+        }
+
+        if (temp.getX() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS) {
+            this.speed.setX(-this.speed.getX());
+            recalc = true;
+        }
+
+        if (temp.getY() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS) {
+            this.speed.setY(-this.speed.getY());
+            recalc = true;
+        }
+
+        if (recalc)
+            temp = mUtils.vecAdd(this.position,
+                    mUtils.vecMul(this.speed, getFrameTime()));
+        this.position = temp;
         rotationDelta = this.shape.rotation - this.heading;
         if (rotationDelta != 0) {
             this.shape.rotation = this.heading;
