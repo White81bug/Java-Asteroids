@@ -12,6 +12,7 @@ class Bullet extends Thing {
     }, (float) 5);
 
     static final float START_SPEED = 16.0f;
+    int priority = 100;
 
     void OnCollision(Thing other) {
         other.OnHit();
