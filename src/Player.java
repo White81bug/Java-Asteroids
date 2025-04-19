@@ -11,7 +11,7 @@ class Bullet extends Thing {
             new Vector2(0, -2f), new Vector2(2f, 2f), new Vector2(-2f, 2f)
     }, (float) 5);
 
-    float speed = 8.0f;
+    static final float START_SPEED = 16.0f;
 
     void OnCollision(Thing other) {
         other.OnHit();
