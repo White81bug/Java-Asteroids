@@ -30,6 +30,15 @@ final class Collider {
 
             if (!CheckCollide(first, second))
                 continue;
+
+            if (first.priority > second.priority)
+                first.OnCollision(second);
+            else
+                second.OnCollision(first);
+
+            drawRectangleV(first.position, new Vector2(10, 10), RED);
+            drawRectangleV(second.position, new Vector2(10, 10), RED);
+
             collisionCount++;
         }
         return collisionCount;
