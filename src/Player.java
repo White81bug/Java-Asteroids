@@ -14,6 +14,9 @@ class Bullet extends Thing {
 
     float speed = 8.0f;
 
+    void OnCollision(Thing other) {
+    }
+
     Bullet(Player player) {
         super(Bullet.bulletShape);
         this.position = player.position;
@@ -29,14 +32,15 @@ class Bullet extends Thing {
 class Player extends Thing {
     //    *
     //   / \
-    //  //^\\
-    // */   \*
+    //  / * \
+    // * / \ *
     //
     static final Shape playerShape = new Shape(new Vector2[] {
             new Vector2(0, -2), new Vector2(-2, 2), new Vector2(0, 1),
             new Vector2(2, 2)
     });
 
+    final int priority = 20;      // To decide from which object to call collision processing function from
     final float moveSpeed = 3.5f;
     final float rotSpeed = 2.5f;
 
@@ -48,6 +52,10 @@ class Player extends Thing {
     Player(Vector2 pos) {
         this();
         this.position = pos;
+    }
+
+    void OnCollision(Thing other) {
+        Collider.Bounce(this, other);
     }
 
     void Update() {
