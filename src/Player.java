@@ -8,20 +8,29 @@ import java.lang.ArrayIndexOutOfBoundsException;
 
 class Bullet extends Thing {
     static final Shape bulletShape = new Shape(new Vector2[] {
-            new Vector2(0, -0.5f), new Vector2(0.5f, 0.5f),
-            new Vector2(-0.5f, 0.5f)
-    });
+            new Vector2(0, -2f), new Vector2(2f, 2f), new Vector2(-2f, 2f)
+    }, (float) 5);
 
-    float speed = 8.0f;
+    static final float START_SPEED = 16.0f;
+    int priority = 100;
 
     void OnCollision(Thing other) {
+        other.OnHit();
+        this.askToDie = true;
+    }
+
+    void OnHit() {
+
     }
 
     Bullet(Player player) {
         super(Bullet.bulletShape);
-        this.position = player.position;
+        this.position = mUtils.vecAdd(player.position,
+                mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
         this.shape.rotation = player.shape.rotation;
-        this.speed = 8.0f;
+        this.speed = mUtils.vecAdd(mUtils.vecMul(
+                new Vector2(Bullet.START_SPEED, Bullet.START_SPEED),
+                player.shape.points[0]), player.speed);
     }
 
     void Update() {
@@ -52,6 +61,10 @@ class Player extends Thing {
     Player(Vector2 pos) {
         this();
         this.position = pos;
+    }
+
+    void OnHit() {
+
     }
 
     void OnCollision(Thing other) {

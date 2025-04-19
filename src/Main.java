@@ -85,8 +85,17 @@ class LogicMaster {
         return this.playerRef;
     }
 
+    Bullet CreateBullet() {
+        return (Bullet) objList.Push(new Bullet(this.playerRef));
+    }
+
     void RunLogic() {
         this.objList.Sort();
+
+        if (isKeyPressed(KEY_SPACE)) {
+            CreateBullet();
+        }
+
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -99,6 +108,10 @@ class LogicMaster {
                 continue;
 
             try {
+
+                if (obj.askToDie) {
+                    continue;
+                }
                 Collider.RunCollider(this.objList, i);
                 obj.Update();
                 obj.Draw();
@@ -108,6 +121,14 @@ class LogicMaster {
                 System.exit(-1);
             }
         }
+
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = obj = objList.Get(i);
+            if (obj.askToDie)
+                objList.Pop(i);
+        }
+        objList.CleanupMemory();
+
     }
 }
 

@@ -17,6 +17,7 @@ public class Shape {
     static final int MAX_SIZE = 32;
 
     Shape(Vector2[] newPoints) {
+        super();
         this.size = newPoints.length;
         this.colliderRadius *= this.scale;
 
@@ -36,8 +37,18 @@ public class Shape {
     }
 
     Shape(Vector2[] newPoints, float scale) {
-        this(newPoints);
+        super();
         this.scale = scale;
+        this.size = newPoints.length;
+        this.colliderRadius *= this.scale;
+
+        this.points = new Vector2[MAX_SIZE];
+        Vector2 temp[] = new Vector2[MAX_SIZE];
+        for (int i = 0; i < this.size; i++) {
+            temp[i] = mUtils.vecMul(newPoints[i], this.scale);
+        }
+        this.ref = temp.clone();
+        this.ClonePoints(ref, points);
     }
 
     void ApplyRotation() {
