@@ -24,7 +24,7 @@
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        @SuppressWarnings("unchecked") T ret = (T) list[i];
+        T ret = (T) list[i];
         return ret;
     }
 
@@ -32,7 +32,7 @@
         if (i < 0 || size <= i) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        @SuppressWarnings("unchecked") T tmp = (T) list[i];
+        T tmp = (T) list[i];
         list[i] = null;
         return tmp;
     }
