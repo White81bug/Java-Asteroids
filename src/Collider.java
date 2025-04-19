@@ -25,7 +25,7 @@ final class Collider {
             // It assumes that the list is sorted by X
             if (second.shape.colliderRadius
                     + first.shape.colliderRadius < second.position.getX()
-                            + first.position.getX())
+                            - first.position.getX())
                 break;
 
             if (!CheckCollide(first, second))
