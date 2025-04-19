@@ -25,7 +25,8 @@ class Bullet extends Thing {
 
     Bullet(Player player) {
         super(Bullet.bulletShape);
-        this.position = player.position;
+        this.position = mUtils.vecAdd(player.position,
+                mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
         this.shape.rotation = player.shape.rotation;
         this.speed = 8.0f;
     }
