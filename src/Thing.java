@@ -34,13 +34,14 @@ abstract public class Thing {
         }
     }
 
-    abstract void OnCollision();
+    abstract void OnCollision(Thing other);
 
     void Draw() {
         if (this.shape == null)
             throw new NullPointerException();
         if (this.shape.size < 2)
             return;
+        // drawCircleV(this.position, this.shape.colliderRadius, RED);
 
         Vector2 startPos = mUtils.vecAdd(this.shape.points[this.shape.size - 1],
                 this.position);
