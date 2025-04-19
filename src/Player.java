@@ -19,6 +19,10 @@ class Bullet extends Thing {
         this.askToDie = true;
     }
 
+    void OnHit() {
+
+    }
+
     Bullet(Player player) {
         super(Bullet.bulletShape);
         this.position = player.position;
