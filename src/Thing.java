@@ -14,6 +14,7 @@ abstract public class Thing {
     float heading;     // Where the object is headed
     int priority;      // To decide from which object to call collision processing function from
     float mass;
+    boolean askToDie = false;
 
     Thing(Shape shape) {
         this.rotateSpeed = 0;

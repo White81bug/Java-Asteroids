@@ -15,6 +15,7 @@ class Bullet extends Thing {
     float speed = 8.0f;
 
     void OnCollision(Thing other) {
+        this.askToDie = true;
     }
 
     Bullet(Player player) {
