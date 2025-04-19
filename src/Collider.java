@@ -1,3 +1,6 @@
+import static com.raylib.Raylib.*;
+import com.raylib.Vector2;
+
 final class Collider {
     static boolean CheckCollide(Thing a, Thing b) {
 
