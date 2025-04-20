@@ -85,28 +85,31 @@ class LogicMaster {
 
     Vector2 RandomEdgePosition() {
         int edge = (int) (Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-        float margin = 50f; // смещение внутрь мира
+
         float x = 0, y = 0;
+
+        float asteroidBuffer = 20f;
+        float asteroidRadius = Asteroid.asteroidShape.colliderRadius;
+        float offset = asteroidRadius + asteroidBuffer;
 
         switch (edge) {
             case 0: // top
-                x = (float) (Math.random() * GLOBALS.MAX_WORLD_POS);
-                y = GLOBALS.MIN_WORLD_POS + margin;
+                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = GLOBALS.MIN_WORLD_POS + offset;
                 break;
             case 1: // right
-                x = GLOBALS.MAX_WORLD_POS - margin;
-                y = (float) (Math.random() * GLOBALS.MAX_WORLD_POS);
+                x = GLOBALS.MAX_WORLD_POS - offset;
+                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
             case 2: // bottom
-                x = (float) (Math.random() * GLOBALS.MAX_WORLD_POS);
-                y = GLOBALS.MAX_WORLD_POS - margin;
+                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = GLOBALS.MAX_WORLD_POS - offset;
                 break;
             case 3: // left
-                x = GLOBALS.MIN_WORLD_POS + margin;
-                y = (float) (Math.random() * GLOBALS.MAX_WORLD_POS);
+                x = GLOBALS.MIN_WORLD_POS + offset;
+                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
         }
-
         return new Vector2(x, y);
     }
 
