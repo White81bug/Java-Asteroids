@@ -157,7 +157,7 @@ public class Main {
                     drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
                     drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
                     if (isKeyPressed(KEY_ENTER)) {
-                        joel = new LogicMaster(); // перезапуск логики
+                        joel = new LogicMaster(); // logic restart
                         joel.CreatePlayer(new Vector2(200, 200));
                         joel.CreateAsteroid(new Vector2(200, 100));
                         state = GameState.GAME;
