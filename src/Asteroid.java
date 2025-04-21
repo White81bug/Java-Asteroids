@@ -6,8 +6,6 @@ public class Asteroid extends Thing {
             new Vector2(2, -2)
     });
 
-    final int priority = 10;      // To decide from which object to call collision processing function from
-
     void OnHit() {
         this.askToDie = true;
     }
@@ -18,6 +16,7 @@ public class Asteroid extends Thing {
 
     Asteroid() {
         super(Asteroid.asteroidShape);
+        priority = 20; // To decide from which object to call collision processing function from
     }
 
     Asteroid(Vector2 pos) {
