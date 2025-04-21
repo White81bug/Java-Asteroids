@@ -96,9 +96,8 @@ class Player extends Thing {
         // we can use that to extrapolate the direction of movement required for us.
         // Keep in mind that it NEEDS to be normalized
         // otherwise we will mess with the movement speed, and we don't want that
-        float length =
-                (float) Math.sqrt(Math.pow(this.shape.points[0].getX(), 2)
-                        + Math.pow(this.shape.points[0].getY(), 2));
+        float length = (float) Math.sqrt(Math.pow(this.shape.points[0].getX(), 2)
+                + Math.pow(this.shape.points[0].getY(), 2));
         this.speed.setX(this.speed.getX()
                 + input * (this.shape.points[0].getX() / length));
         this.speed.setY(this.speed.getY()
