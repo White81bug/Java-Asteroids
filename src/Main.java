@@ -58,6 +58,9 @@ class CameraController {
 
 class LogicMaster {
 
+    float spawnCooldown = 2.0f;
+    float timeSinceLastSpawn = 0.0f;
+
     Player playerRef = null;
 
     //         (x1,y1)
@@ -78,6 +81,36 @@ class LogicMaster {
 
     Asteroid CreateAsteroid(Vector2 position) {
         return (Asteroid) objList.Push(new Asteroid(position));
+    }
+
+    Vector2 RandomEdgePosition() {
+        int edge = (int) (Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+
+        float x = 0, y = 0;
+
+        float asteroidBuffer = 20f;
+        float asteroidRadius = Asteroid.asteroidShape.colliderRadius;
+        float offset = asteroidRadius + asteroidBuffer;
+
+        switch (edge) {
+            case 0: // top
+                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = GLOBALS.MIN_WORLD_POS + offset;
+                break;
+            case 1: // right
+                x = GLOBALS.MAX_WORLD_POS - offset;
+                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                break;
+            case 2: // bottom
+                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = GLOBALS.MAX_WORLD_POS - offset;
+                break;
+            case 3: // left
+                x = GLOBALS.MIN_WORLD_POS + offset;
+                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                break;
+        }
+        return new Vector2(x, y);
     }
 
     Player CreatePlayer(Vector2 position) {
@@ -127,6 +160,11 @@ class LogicMaster {
                 e.printStackTrace();
                 System.exit(-1);
             }
+        }
+        timeSinceLastSpawn += getFrameTime();
+        if (timeSinceLastSpawn >= spawnCooldown) {
+            CreateAsteroid(RandomEdgePosition());
+            timeSinceLastSpawn = 0.0f;
         }
 
         for (int i = 0; i < objList.GetLen(); i++) {
