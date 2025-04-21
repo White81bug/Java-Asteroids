@@ -89,7 +89,7 @@ public class StaticList<T> {
             }
             if (current != null && firstNull < i) {
                 this.list[firstNull] = current;
-                this.list[i] = 0;
+                this.list[i] = null;
                 i = firstNull;
                 nullCounter = 0;
                 firstNull = StaticList.ARRAY_SIZE;
