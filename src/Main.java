@@ -96,6 +96,10 @@ class LogicMaster {
             CreateBullet();
         }
 
+        if (isKeyPressed(KEY_EQUAL)) {
+            CreateAsteroid(new Vector2(300, 300));
+        }
+
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
