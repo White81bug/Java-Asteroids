@@ -12,7 +12,6 @@ class Bullet extends Thing {
     }, (float) 5);
 
     static final float START_SPEED = 16.0f;
-    int priority = 100;
 
     void OnCollision(Thing other) {
         other.OnHit();
@@ -20,11 +19,12 @@ class Bullet extends Thing {
     }
 
     void OnHit() {
-
+        this.askToDie = true;
     }
 
     Bullet(Player player) {
         super(Bullet.bulletShape);
+        priority = 100;
         this.position = mUtils.vecAdd(player.position,
                 mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
         this.shape.rotation = player.shape.rotation;
@@ -49,12 +49,12 @@ class Player extends Thing {
             new Vector2(2, 2)
     });
 
-    final int priority = 20;      // To decide from which object to call collision processing function from
     final float moveSpeed = 3.5f;
     final float rotSpeed = 2.5f;
 
     Player() {
         super(Player.playerShape);
+        priority = 50;
         this.position = new Vector2(100, 100);
     }
 
@@ -96,9 +96,8 @@ class Player extends Thing {
         // we can use that to extrapolate the direction of movement required for us.
         // Keep in mind that it NEEDS to be normalized
         // otherwise we will mess with the movement speed, and we don't want that
-        float length =
-                (float) Math.sqrt(Math.pow(this.shape.points[0].getX(), 2)
-                        + Math.pow(this.shape.points[0].getY(), 2));
+        float length = (float) Math.sqrt(Math.pow(this.shape.points[0].getX(), 2)
+                + Math.pow(this.shape.points[0].getY(), 2));
         this.speed.setX(this.speed.getX()
                 + input * (this.shape.points[0].getX() / length));
         this.speed.setY(this.speed.getY()

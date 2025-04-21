@@ -1,4 +1,5 @@
-@SuppressWarnings("unchecked") public class StaticList<T> {
+@SuppressWarnings("unchecked")
+public class StaticList<T> {
     static final int ARRAY_SIZE = 1024;
     private Object[] list;
     private int size;
@@ -40,10 +41,12 @@
     // Hopefully swap two objects in a list, though I'm not sure if it'll work...
     void Swap(int index_a, int index_b) {
         T temp = -1 < index_a && index_a < StaticList.ARRAY_SIZE
-                ? (T) list[index_a] : null;
+                ? (T) list[index_a]
+                : null;
         if (temp != null)
             list[index_a] = -1 < index_b && index_b < StaticList.ARRAY_SIZE
-                    ? (T) list[index_a] : null;
+                    ? (T) list[index_a]
+                    : null;
 
         if (-1 < index_b && index_b < StaticList.ARRAY_SIZE)
             list[index_b] = temp;
@@ -76,17 +79,17 @@
         int i = 0;
         int firstNull = StaticList.ARRAY_SIZE;
         int nullCounter = 0;
-        Thing current = null;
+        T current = null;
 
         while (i < this.size) {
-            current = (Thing) this.list[i];
+            current = (T) this.list[i];
             if (current == null) {
                 firstNull = i < firstNull ? i : firstNull;
                 nullCounter++;
             }
             if (current != null && firstNull < i) {
                 this.list[firstNull] = current;
-                this.list[i] = 0;
+                this.list[i] = null;
                 i = firstNull;
                 nullCounter = 0;
                 firstNull = StaticList.ARRAY_SIZE;
