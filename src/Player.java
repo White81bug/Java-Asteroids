@@ -12,7 +12,6 @@ class Bullet extends Thing {
     }, (float) 5);
 
     static final float START_SPEED = 16.0f;
-    int priority = 100;
 
     void OnCollision(Thing other) {
         other.OnHit();
@@ -25,6 +24,7 @@ class Bullet extends Thing {
 
     Bullet(Player player) {
         super(Bullet.bulletShape);
+        priority = 100;
         this.position = mUtils.vecAdd(player.position,
                 mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
         this.shape.rotation = player.shape.rotation;
@@ -49,12 +49,12 @@ class Player extends Thing {
             new Vector2(2, 2)
     });
 
-    final int priority = 20;      // To decide from which object to call collision processing function from
     final float moveSpeed = 3.5f;
     final float rotSpeed = 2.5f;
 
     Player() {
         super(Player.playerShape);
+        priority = 50;
         this.position = new Vector2(100, 100);
     }
 
