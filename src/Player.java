@@ -19,7 +19,7 @@ class Bullet extends Thing {
     }
 
     void OnHit() {
-
+        this.askToDie = true;
     }
 
     Bullet(Player player) {
