@@ -31,7 +31,7 @@ final class Collider {
             if (!CheckCollide(first, second))
                 continue;
 
-            if (first.priority > second.priority)
+            if (first.priority >= second.priority)
                 first.OnCollision(second);
             else
                 second.OnCollision(first);

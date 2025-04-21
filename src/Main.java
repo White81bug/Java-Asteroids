@@ -129,6 +129,10 @@ class LogicMaster {
             CreateBullet();
         }
 
+        if (isKeyPressed(KEY_EQUAL)) {
+            CreateAsteroid(new Vector2(300, 300));
+        }
+
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -147,6 +151,9 @@ class LogicMaster {
                 }
                 Collider.RunCollider(this.objList, i);
                 obj.Update();
+                drawText(
+                        String.format("%d\n%d", i, obj.priority),
+                        (int) obj.position.getX(), (int) obj.position.getY(), 18, RAYWHITE);
                 obj.Draw();
             } catch (NullPointerException e) {
                 System.out.printf("Got a null on i == %d\n", i);
