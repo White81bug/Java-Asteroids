@@ -79,10 +79,10 @@ public class StaticList<T> {
         int i = 0;
         int firstNull = StaticList.ARRAY_SIZE;
         int nullCounter = 0;
-        Thing current = null;
+        T current = null;
 
         while (i < this.size) {
-            current = (Thing) this.list[i];
+            current = (T) this.list[i];
             if (current == null) {
                 firstNull = i < firstNull ? i : firstNull;
                 nullCounter++;
