@@ -141,6 +141,8 @@ class LogicMaster {
 
 public class Main {
     public static void main(String args[]) {
+        GameState state = GameState.MENU;
+
         initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
 
@@ -154,21 +156,46 @@ public class Main {
         joel.CreatePlayer(new Vector2(200, 200));
         joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
-            camCtrl.Update(joel.playerRef.position);
             beginDrawing();
             clearBackground(BLACK);
-            beginMode2D(camCtrl.getCamera());
-            Renderer.drawGrid();
 
-            joel.RunLogic();
+            switch (state) {
+                case MENU:
+                    drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
+                    drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
+                    if (isKeyPressed(KEY_ENTER)) {
+                        joel = new LogicMaster(); // logic restart
+                        joel.CreatePlayer(new Vector2(200, 200));
+                        joel.CreateAsteroid(new Vector2(200, 100));
+                        state = GameState.GAME;
+                    }
+                    break;
 
-            endMode2D();
-            drawFPS(20, 20);
+                case GAME:
+                    camCtrl.Update(joel.playerRef.position);
+                    beginMode2D(camCtrl.getCamera());
+                    Renderer.drawGrid();
 
-            drawText(
-                    String.format("Rotation: %f",
-                            joel.playerRef.shape.rotation),
-                    20, 40, 18, RAYWHITE);
+                    joel.RunLogic();
+
+                    endMode2D();
+                    drawFPS(20, 20);
+                    drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
+
+                    if (joel.playerRef.askToDie) {
+                        state = GameState.GAME_OVER;
+                    }
+                    break;
+
+                case GAME_OVER:
+                    drawText("GAME OVER", 550, 300, 40, RED);
+                    drawText("Press [ENTER] to go to Menu", 500, 350, 20, GRAY);
+                    if (isKeyPressed(KEY_ENTER)) {
+                        state = GameState.MENU;
+                    }
+                    break;
+            }
+
             endDrawing();
 
         }
