@@ -219,9 +219,22 @@ public class Main {
                     endMode2D();
                     drawFPS(20, 20);
                     drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
+                    if (isKeyPressed(KEY_P)) {
+                        state = GameState.PAUSE;
+                        break;
+                    }
 
                     if (joel.playerRef.askToDie) {
                         state = GameState.GAME_OVER;
+                    }
+                    break;
+
+                case PAUSE:
+                    drawText("PAUSED", 560, 300, 40, YELLOW);
+                    drawText("Press [P] to Resume", 500, 350, 20, GRAY);
+
+                    if (isKeyPressed(KEY_P)) {
+                        state = GameState.GAME;
                     }
                     break;
 
