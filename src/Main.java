@@ -180,6 +180,7 @@ class LogicMaster {
 public class Main {
     public static void main(String args[]) {
         GameState state = GameState.MENU;
+        Difficulty difficulty = Difficulty.NORMAL;
 
         initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
@@ -201,10 +202,21 @@ public class Main {
                 case MENU:
                     drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
                     drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
+
+                    drawText("← → to change", 560, 560, 16, GRAY);
+
+                    if (isKeyPressed(KEY_LEFT)) {
+                        difficulty = difficulty.prev();
+                    }
+                    if (isKeyPressed(KEY_RIGHT)) {
+                        difficulty = difficulty.next();
+                    }
+
                     if (isKeyPressed(KEY_ENTER)) {
-                        joel = new LogicMaster(); // logic restart
+                        joel = new LogicMaster();
                         joel.CreatePlayer(new Vector2(200, 200));
                         joel.CreateAsteroid(new Vector2(200, 100));
+                        joel.spawnCooldown = difficulty.getSpawnCooldown();
                         state = GameState.GAME;
                     }
                     break;
