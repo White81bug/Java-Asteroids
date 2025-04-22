@@ -22,4 +22,17 @@ public enum Difficulty {
         }
         return 2.0f; // fallback
     }
+
+    public int getScoreValue() {
+        switch (this) {
+            case EASY:
+                return 5;
+            case NORMAL:
+                return 10;
+            case HARD:
+                return 15;
+        }
+        return 10;
+    }
+
 }

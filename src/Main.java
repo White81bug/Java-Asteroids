@@ -15,6 +15,7 @@ class CameraController {
 
     Camera2D camera = new Camera2D();
 
+
     void Update(Vector2 targetOriginal) {
 
         if (isKeyPressed(KEY_C)) {
@@ -61,6 +62,10 @@ class LogicMaster {
     float spawnCooldown = 2.0f;
     float timeSinceLastSpawn = 0.0f;
 
+    Difficulty difficulty;
+
+    int score = 0;
+
     Player playerRef = null;
 
     //         (x1,y1)
@@ -75,12 +80,17 @@ class LogicMaster {
 
     StaticList<Thing> objList;
 
-    LogicMaster() {
+    LogicMaster(Difficulty difficulty) {
         objList = new StaticList<Thing>();
+        this.difficulty = difficulty;
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
         return (Asteroid) objList.Push(new Asteroid(position));
+    }
+
+    void AddScore(int amount) {
+        score += amount;
     }
 
     Vector2 RandomEdgePosition() {
@@ -119,7 +129,7 @@ class LogicMaster {
     }
 
     Bullet CreateBullet() {
-        return (Bullet) objList.Push(new Bullet(this.playerRef));
+        return (Bullet) objList.Push(new Bullet(this.playerRef, this));
     }
 
     void RunLogic() {
@@ -182,6 +192,7 @@ public class Main {
         GameState state = GameState.MENU;
         Difficulty difficulty = Difficulty.NORMAL;
 
+
         initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
 
@@ -189,7 +200,7 @@ public class Main {
                 //changed initial coords for camera. Without this change player in top-right corner
                 new Vector2(getScreenWidth() / 2.0f, getScreenHeight() / 2.0f),
                 new Vector2(0, 0), 0, 2f);
-        LogicMaster joel = new LogicMaster();
+        LogicMaster joel = joel = new LogicMaster(difficulty);
         CameraController camCtrl = new CameraController();
 
         joel.CreatePlayer(new Vector2(200, 200));
@@ -203,7 +214,8 @@ public class Main {
                     drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
                     drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
 
-                    drawText("← → to change", 560, 560, 16, GRAY);
+                    drawText("<- -> to change", 560, 560, 16, GRAY);
+                    drawText(difficulty.toString(), 500, 400, 20, GRAY);
 
                     if (isKeyPressed(KEY_LEFT)) {
                         difficulty = difficulty.prev();
@@ -213,7 +225,7 @@ public class Main {
                     }
 
                     if (isKeyPressed(KEY_ENTER)) {
-                        joel = new LogicMaster();
+                        joel = new LogicMaster(difficulty);
                         joel.CreatePlayer(new Vector2(200, 200));
                         joel.CreateAsteroid(new Vector2(200, 100));
                         joel.spawnCooldown = difficulty.getSpawnCooldown();
@@ -230,6 +242,7 @@ public class Main {
 
                     endMode2D();
                     drawFPS(20, 20);
+                    drawText("Score: " + joel.score, 20, 65, 18, RAYWHITE);
                     drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
 
                     if (joel.playerRef.askToDie) {
@@ -240,6 +253,7 @@ public class Main {
                 case GAME_OVER:
                     drawText("GAME OVER", 550, 300, 40, RED);
                     drawText("Press [ENTER] to go to Menu", 500, 350, 20, GRAY);
+                    drawText("SCORE: " + joel.score, 560, 350, 22, RAYWHITE);
                     if (isKeyPressed(KEY_ENTER)) {
                         state = GameState.MENU;
                     }
