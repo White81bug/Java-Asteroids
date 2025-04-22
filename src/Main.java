@@ -199,8 +199,18 @@ public class Main {
 
             switch (state) {
                 case MENU:
-                    drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
-                    drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
+                    drawText("ASTEROIDS GAME", 480, 180, 40, RAYWHITE);
+                    drawText("Press [ENTER] to Start", 500, 240, 20, GRAY);
+                    //controls explanation
+                    drawText("W / S - Move Forward / Backward", 460, 320, 18, LIGHTGRAY);
+                    drawText("A / D - Rotate Left / Right", 460, 350, 18, LIGHTGRAY);
+                    drawText("SPACE - Shoot", 460, 380, 18, LIGHTGRAY);
+                    drawText("P - Pause", 460, 410, 18, LIGHTGRAY);
+                    drawText("C - Toggle Camera Follow", 460, 440, 18, LIGHTGRAY);
+                    drawText("0 - Reset Player Position", 460, 470, 18, LIGHTGRAY);
+                    drawText("ESC - Exit", 460, 500, 18, LIGHTGRAY);
+
+
                     if (isKeyPressed(KEY_ENTER)) {
                         joel = new LogicMaster(); // logic restart
                         joel.CreatePlayer(new Vector2(200, 200));
@@ -208,7 +218,7 @@ public class Main {
                         state = GameState.GAME;
                     }
                     break;
-                    
+
                 case GAME:
                     if (isKeyPressed(KEY_P)) {
                         state = GameState.PAUSE;
