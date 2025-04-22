@@ -208,21 +208,24 @@ public class Main {
                         state = GameState.GAME;
                     }
                     break;
-
+                    
                 case GAME:
+                    if (isKeyPressed(KEY_P)) {
+                        state = GameState.PAUSE;
+                        break;
+                    }
+
                     camCtrl.Update(joel.playerRef.position);
+
                     beginMode2D(camCtrl.getCamera());
                     Renderer.drawGrid();
 
                     joel.RunLogic();
 
                     endMode2D();
+
                     drawFPS(20, 20);
                     drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
-                    if (isKeyPressed(KEY_P)) {
-                        state = GameState.PAUSE;
-                        break;
-                    }
 
                     if (joel.playerRef.askToDie) {
                         state = GameState.GAME_OVER;
