@@ -34,6 +34,11 @@ public class Asteroid extends Thing {
         Collider.Bounce(this, other);
     }
 
+    void Update() {
+        this.heading += this.angularMomentum;
+        super.Update();
+    }
+
     Asteroid() {
         super(new Shape(Asteroid.GenShape()));
         this.priority = 20; // To decide from which object to call collision processing function from
