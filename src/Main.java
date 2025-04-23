@@ -12,8 +12,6 @@ import java.lang.ArrayIndexOutOfBoundsException;
 public class Main {
     public static void main(String args[]) {
         GameState state = GameState.MENU;
-        Difficulty difficulty = Difficulty.NORMAL;
-
 
         initWindow(1280, 800, "Fuck this shit");
         setTargetFPS(60);
@@ -37,13 +35,17 @@ public class Main {
                     drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
 
                     drawText("A/D to change", 560, 560, 16, GRAY);
-                    drawText(difficulty.toString(), 500, 400, 20, GRAY);
+                    drawText(LogicMaster.GetDifficulty().toString(), 500, 400,
+                            20, GRAY);
 
                     if (isKeyPressed(KEY_A)) {
-                        difficulty = difficulty.prev();
+                        LogicMaster.SetDifficulty(
+                                LogicMaster.GetDifficulty().prev());
                     }
+
                     if (isKeyPressed(KEY_D)) {
-                        difficulty = difficulty.next();
+                        LogicMaster.SetDifficulty(
+                                LogicMaster.GetDifficulty().next());
                     }
 
                     if (isKeyPressed(KEY_ENTER)) {

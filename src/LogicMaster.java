@@ -30,10 +30,10 @@ class LogicMaster {
 
     StaticList<Thing> objList;
 
-    LogicMaster(Difficulty difficulty) {
+    LogicMaster() {
         objList = new StaticList<Thing>();
-        LogicMaster.difficulty = difficulty;
         LogicMaster.runningLM_ptr = this;
+        this.difficulty = Difficulty.NORMAL;
         this.camCtl = new CameraController();
     }
 
@@ -41,6 +41,21 @@ class LogicMaster {
         return (Asteroid) objList.Push(new Asteroid(position));
     }
 
+    static Difficulty SetDifficulty(Difficulty dif) {
+        return LogicMaster.runningLM_ptr._SetDifficulty(dif);
+    }
+
+    private Difficulty _SetDifficulty(Difficulty dif) {
+        return this.difficulty = dif;
+    }
+
+    static Difficulty GetDifficulty() {
+        return LogicMaster.runningLM_ptr._GetDifficulty();
+    }
+
+    private Difficulty _GetDifficulty() {
+        return this.difficulty;
+    }
     static void AddScore() {
 
         score += difficulty.getScoreValue();
@@ -132,7 +147,7 @@ class LogicMaster {
             }
         }
         timeSinceLastSpawn += getFrameTime();
-        if (timeSinceLastSpawn >= spawnCooldown
+        if (timeSinceLastSpawn >= this.difficulty.getSpawnCooldown()
                 && asteroidCount < difficulty.getMaxAsteroids()) {
             CreateAsteroid(RandomEdgePosition()).speed =
                     new Vector2((float) (Math.random() - .5) * 400,
