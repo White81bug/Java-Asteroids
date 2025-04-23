@@ -1,12 +1,18 @@
 import com.raylib.Vector2;
-import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.KeyboardKey.*;
-import static com.raylib.Raylib.MouseButton.*;
 
-public class LogicMaster {
+import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.KeyboardKey.KEY_EQUAL;
+import static com.raylib.Raylib.KeyboardKey.KEY_SPACE;
+import static com.raylib.Raylib.getFrameTime;
+
+class LogicMaster {
 
     float spawnCooldown = 2.0f;
     float timeSinceLastSpawn = 0.0f;
+
+    Difficulty difficulty;
+
+    int score = 0;
 
     Player playerRef = null;
 
@@ -22,16 +28,17 @@ public class LogicMaster {
 
     StaticList<Thing> objList;
 
-    LogicMaster() {
+    LogicMaster(Difficulty difficulty) {
         objList = new StaticList<Thing>();
-    }
-
-    Asteroid CreateAsteroid(Vector2 position, float mass) {
-        return (Asteroid) objList.Push(new Asteroid(position, mass));
+        this.difficulty = difficulty;
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
-        return CreateAsteroid(position, 1.f);
+        return (Asteroid) objList.Push(new Asteroid(position));
+    }
+
+    void AddScore(int amount) {
+        score += amount;
     }
 
     Vector2 RandomEdgePosition() {
@@ -39,31 +46,28 @@ public class LogicMaster {
 
         float x = 0, y = 0;
 
-        float asteroidBuffer = 20f;
-        float offset = 10.f + asteroidBuffer;
+        final float fixedSpawnRadius = 60f;
+        float offset = fixedSpawnRadius + 20f;
 
         switch (edge) {
             case 0: // top
-                x = (float) (Math.random()
-                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MIN_WORLD_POS + offset;
                 break;
             case 1: // right
                 x = GLOBALS.MAX_WORLD_POS - offset;
-                y = (float) (Math.random()
-                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
             case 2: // bottom
-                x = (float) (Math.random()
-                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MAX_WORLD_POS - offset;
                 break;
             case 3: // left
                 x = GLOBALS.MIN_WORLD_POS + offset;
-                y = (float) (Math.random()
-                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
         }
+
         return new Vector2(x, y);
     }
 
@@ -73,7 +77,7 @@ public class LogicMaster {
     }
 
     Bullet CreateBullet() {
-        return (Bullet) objList.Push(new Bullet(this.playerRef));
+        return (Bullet) objList.Push(new Bullet(this.playerRef, this));
     }
 
     void RunLogic() {
@@ -105,10 +109,9 @@ public class LogicMaster {
                 }
                 Collider.RunCollider(this.objList, i);
                 obj.Update();
-                if (GLOBALS.DEBUG)
-                    drawText(String.format("%d\n%d", i, obj.priority),
-                            (int) obj.position.getX(),
-                            (int) obj.position.getY(), 18, RAYWHITE);
+                drawText(
+                        String.format("%d\n%d", i, obj.priority),
+                        (int) obj.position.getX(), (int) obj.position.getY(), 18, RAYWHITE);
                 obj.Draw();
             } catch (NullPointerException e) {
                 System.out.printf("Got a null on i == %d\n", i);
@@ -117,9 +120,8 @@ public class LogicMaster {
             }
         }
         timeSinceLastSpawn += getFrameTime();
-        if (timeSinceLastSpawn >= spawnCooldown) {
-            CreateAsteroid(RandomEdgePosition(),
-                    mUtils.Clamp((float) Math.random() * 4, 1.f, 4.f));
+        if (timeSinceLastSpawn >= spawnCooldown && getAsteroidCount() < difficulty.getMaxAsteroids()) {
+            CreateAsteroid(RandomEdgePosition());
             timeSinceLastSpawn = 0.0f;
         }
 
@@ -130,5 +132,16 @@ public class LogicMaster {
         }
         objList.CleanupMemory();
 
+    }
+
+    int getAsteroidCount() {
+        int count = 0;
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = objList.Get(i);
+            if (obj instanceof Asteroid && !obj.askToDie) {
+                count++;
+            }
+        }
+        return count;
     }
 }
