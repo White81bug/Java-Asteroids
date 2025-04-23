@@ -97,20 +97,24 @@ class LogicMaster {
 
         switch (edge) {
             case 0: // top
-                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MIN_WORLD_POS + offset;
                 break;
             case 1: // right
                 x = GLOBALS.MAX_WORLD_POS - offset;
-                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
             case 2: // bottom
-                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MAX_WORLD_POS - offset;
                 break;
             case 3: // left
                 x = GLOBALS.MIN_WORLD_POS + offset;
-                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
         }
         return new Vector2(x, y);
