@@ -6,20 +6,21 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-
 class Player extends Thing {
     //    *
     //   / \
     //  / * \
     // * / \ *
     //
-    static final Shape playerShape = new Shape(new Vector2[]{
+    static final Shape playerShape = new Shape(new Vector2[] {
             new Vector2(0, -2), new Vector2(-2, 2), new Vector2(0, 1),
             new Vector2(2, 2)
     });
 
     final float moveSpeed = 3.5f;
     final float rotSpeed = 2.5f;
+
+    private int lives = 1;
 
     Player() {
         super(Player.playerShape);
@@ -32,11 +33,20 @@ class Player extends Thing {
         this.position = pos;
     }
 
-    void OnHit() {
+    int GetLives() {
+        return lives;
+    }
 
+    void OnHit() {
+        if (this.lives == 0) {
+            this.askToDie = true;
+            return;
+        }
+        this.lives--;
     }
 
     void OnCollision(Thing other) {
+        this.OnHit();
         Collider.Bounce(this, other);
     }
 
@@ -65,8 +75,9 @@ class Player extends Thing {
         // we can use that to extrapolate the direction of movement required for us.
         // Keep in mind that it NEEDS to be normalized
         // otherwise we will mess with the movement speed, and we don't want that
-        float length = (float) Math.sqrt(Math.pow(this.shape.points[0].getX(), 2)
-                + Math.pow(this.shape.points[0].getY(), 2));
+        float length =
+                (float) Math.sqrt(Math.pow(this.shape.points[0].getX(), 2)
+                        + Math.pow(this.shape.points[0].getY(), 2));
         this.speed.setX(this.speed.getX()
                 + input * (this.shape.points[0].getX() / length));
         this.speed.setY(this.speed.getY()
