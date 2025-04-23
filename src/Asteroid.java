@@ -69,9 +69,10 @@ public class Asteroid extends Thing {
     }
 
     void Draw() {
-        drawText(String.format("%f", this.angularMomentum),
-                (int) this.position.x(), (int) this.position.y() + 52, 18,
-                RAYWHITE);
+        if (GLOBALS.DEBUG)
+            drawText(String.format("%f", this.angularMomentum),
+                    (int) this.position.x(), (int) this.position.y() + 52, 18,
+                    RAYWHITE);
         super.Draw();
     }
 }
