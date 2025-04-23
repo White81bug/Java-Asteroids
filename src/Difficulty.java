@@ -35,4 +35,16 @@ public enum Difficulty {
         return 10;
     }
 
+    public int getMaxAsteroids() {
+        switch (this) {
+            case EASY:
+                return 15;
+            case NORMAL:
+                return 30;
+            case HARD:
+                return 45;
+        }
+        return 30;
+    }
+
 }
