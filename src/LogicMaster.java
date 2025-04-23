@@ -9,6 +9,7 @@ class LogicMaster {
 
     float spawnCooldown = 2.0f;
     float timeSinceLastSpawn = 0.0f;
+    int asteroidCount = 0;
 
     Difficulty difficulty;
 
@@ -88,6 +89,7 @@ class LogicMaster {
         }
 
         if (isKeyPressed(KEY_EQUAL)) {
+            this.asteroidCount++;
             CreateAsteroid(new Vector2(300, 300));
         }
 
@@ -127,8 +129,11 @@ class LogicMaster {
 
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = obj = objList.Get(i);
-            if (obj.askToDie)
+            if (obj.askToDie) {
+                if (obj instanceof Asteroid)
+                    this.asteroidCount--;
                 objList.Pop(i);
+            }
         }
         objList.CleanupMemory();
 
