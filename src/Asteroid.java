@@ -1,4 +1,5 @@
 import static com.raylib.Raylib.*;
+
 import com.raylib.Vector2;
 
 public class Asteroid extends Thing {
@@ -61,7 +62,7 @@ public class Asteroid extends Thing {
         direction = new Vector2(direction.getX() / length,
                 direction.getY() / length); // normalize
 
-        this.speed = mUtils.vecMul(direction, 6f);//need to set up speed for appropriate movespeed
+        this.speed = mUtils.vecMul(direction, 60f);//need to set up speed for appropriate movespeed
     }
 
     Asteroid(Vector2 pos) {
