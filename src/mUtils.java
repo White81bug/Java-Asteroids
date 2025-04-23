@@ -34,18 +34,6 @@ public final class mUtils {
         return t > max ? max : t;
     }
 
-    static boolean vecLess(Vector2 a, Vector2 b) {
-        return a.x() < b.x() && a.y() < b.y();
-    }
-
-    static boolean vecMore(Vector2 a, Vector2 b) {
-        return a.x() > b.x() && a.y() > b.y();
-    }
-
-    static boolean vecEq(Vector2 a, Vector2 b) {
-        return a.x() == b.x() && a.y() == b.y();
-    }
-
     static Vector2 vecAdd(Vector2 a, Vector2 b) {
         return new Vector2(a.getX() + b.getX(), a.getY() + b.getY());
     }
