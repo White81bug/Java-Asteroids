@@ -79,8 +79,12 @@ class LogicMaster {
         objList = new StaticList<Thing>();
     }
 
+    Asteroid CreateAsteroid(Vector2 position, float mass) {
+        return (Asteroid) objList.Push(new Asteroid(position, mass));
+    }
+
     Asteroid CreateAsteroid(Vector2 position) {
-        return (Asteroid) objList.Push(new Asteroid(position));
+        return (Asteroid) CreateAsteroid(position, 1.f);
     }
 
     Vector2 RandomEdgePosition() {
@@ -89,25 +93,28 @@ class LogicMaster {
         float x = 0, y = 0;
 
         float asteroidBuffer = 20f;
-        float asteroidRadius = Asteroid.asteroidShape.colliderRadius;
-        float offset = asteroidRadius + asteroidBuffer;
+        float offset = 10.f + asteroidBuffer;
 
         switch (edge) {
             case 0: // top
-                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MIN_WORLD_POS + offset;
                 break;
             case 1: // right
                 x = GLOBALS.MAX_WORLD_POS - offset;
-                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
             case 2: // bottom
-                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MAX_WORLD_POS - offset;
                 break;
             case 3: // left
                 x = GLOBALS.MIN_WORLD_POS + offset;
-                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
         }
         return new Vector2(x, y);
@@ -151,9 +158,9 @@ class LogicMaster {
                 }
                 Collider.RunCollider(this.objList, i);
                 obj.Update();
-                drawText(
-                        String.format("%d\n%d", i, obj.priority),
-                        (int) obj.position.getX(), (int) obj.position.getY(), 18, RAYWHITE);
+                drawText(String.format("%d\n%d", i, obj.priority),
+                        (int) obj.position.getX(), (int) obj.position.getY(),
+                        18, RAYWHITE);
                 obj.Draw();
             } catch (NullPointerException e) {
                 System.out.printf("Got a null on i == %d\n", i);
@@ -163,7 +170,8 @@ class LogicMaster {
         }
         timeSinceLastSpawn += getFrameTime();
         if (timeSinceLastSpawn >= spawnCooldown) {
-            CreateAsteroid(RandomEdgePosition());
+            CreateAsteroid(RandomEdgePosition(),
+                    mUtils.Clamp((float) Math.random() * 4, 1.f, 4.f));
             timeSinceLastSpawn = 0.0f;
         }
 
@@ -235,7 +243,10 @@ public class Main {
                     endMode2D();
 
                     drawFPS(20, 20);
-                    drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
+                    drawText(
+                            String.format("Rotation: %f",
+                                    joel.playerRef.shape.rotation),
+                            20, 40, 18, RAYWHITE);
 
                     if (joel.playerRef.askToDie) {
                         state = GameState.GAME_OVER;
