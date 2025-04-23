@@ -79,8 +79,12 @@ class LogicMaster {
         objList = new StaticList<Thing>();
     }
 
+    Asteroid CreateAsteroid(Vector2 position, float mass) {
+        return (Asteroid) objList.Push(new Asteroid(position, mass));
+    }
+
     Asteroid CreateAsteroid(Vector2 position) {
-        return (Asteroid) objList.Push(new Asteroid(position));
+        return (Asteroid) CreateAsteroid(position, 1.f);
     }
 
     Vector2 RandomEdgePosition() {
