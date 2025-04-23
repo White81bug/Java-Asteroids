@@ -16,6 +16,12 @@ abstract public class Thing {
     float mass;
     boolean askToDie = false;
 
+    Thing() {
+        this.rotateSpeed = 0;
+        this.position = new Vector2(0, 0);
+        this.speed = new Vector2(0, 0);
+    }
+
     Thing(Shape shape) {
         this.rotateSpeed = 0;
         this.position = new Vector2(0, 0);
