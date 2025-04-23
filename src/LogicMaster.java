@@ -7,7 +7,6 @@ import static com.raylib.Raylib.getFrameTime;
 
 class LogicMaster {
 
-    float spawnCooldown = 2.0f;
     float timeSinceLastSpawn = 0.0f;
     int asteroidCount = 0;
 
