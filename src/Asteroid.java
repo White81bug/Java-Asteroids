@@ -55,16 +55,6 @@ public class Asteroid extends Thing {
         this.angularMomentum = ((float) Math.random() - .5f) / 10.f;
 
         this.mass = mass;
-
-        Vector2 direction =
-                mUtils.vecSub(new Vector2(GLOBALS.MAX_WORLD_POS / 2f,
-                        GLOBALS.MAX_WORLD_POS / 2f), pos);
-        float length = (float) Math.sqrt(direction.getX() * direction.getX()
-                + direction.getY() * direction.getY());
-        direction = new Vector2(direction.getX() / length,
-                direction.getY() / length); // normalize
-
-        this.speed = mUtils.vecMul(direction, (int) (Math.random() * 100));//enjoy random speed
     }
 
     Asteroid(Vector2 pos) {
