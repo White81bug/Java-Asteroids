@@ -42,12 +42,4 @@ public class CameraController {
         camera.setZoom(zoom);
     }
 
-    Camera2D getCamera() {
-        return camera;
-    }
-
-    void DrawStatus() {
-        drawText(followPlayer ? "Camera: FOLLOW [C]" : "Camera: FREE [C]", 20,
-                20, 20, GREEN);
-    }
 }

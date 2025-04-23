@@ -1,15 +1,22 @@
 import com.raylib.Vector2;
+
 import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.KeyboardKey.*;
-import static com.raylib.Raylib.MouseButton.*;
+import static com.raylib.Raylib.KeyboardKey.KEY_EQUAL;
+import static com.raylib.Raylib.KeyboardKey.KEY_SPACE;
+import static com.raylib.Raylib.getFrameTime;
 
-public class LogicMaster {
+class LogicMaster {
 
-    float spawnCooldown = 2.0f;
     float timeSinceLastSpawn = 0.0f;
     int asteroidCount = 0;
 
+    private Difficulty difficulty;
+    private int score = 0;
+
+    static LogicMaster runningLM_ptr = null;
+
     Player playerRef = null;
+    CameraController camCtl = null;
 
     //         (x1,y1)
     //         |\
@@ -25,14 +32,45 @@ public class LogicMaster {
 
     LogicMaster() {
         objList = new StaticList<Thing>();
-    }
-
-    Asteroid CreateAsteroid(Vector2 position, float mass) {
-        return (Asteroid) objList.Push(new Asteroid(position, mass));
+        LogicMaster.runningLM_ptr = this;
+        this.difficulty = Difficulty.NORMAL;
+        this.camCtl = new CameraController();
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
-        return CreateAsteroid(position, 1.f);
+        return (Asteroid) objList.Push(new Asteroid(position));
+    }
+
+    static Difficulty SetDifficulty(Difficulty dif) {
+        return LogicMaster.runningLM_ptr._SetDifficulty(dif);
+    }
+
+    private Difficulty _SetDifficulty(Difficulty dif) {
+        return this.difficulty = dif;
+    }
+
+    static Difficulty GetDifficulty() {
+        return LogicMaster.runningLM_ptr._GetDifficulty();
+    }
+
+    private Difficulty _GetDifficulty() {
+        return this.difficulty;
+    }
+
+    static int GetScore() {
+        return LogicMaster.runningLM_ptr._GetScore();
+    }
+
+    private int _GetScore() {
+        return this.score;
+    }
+
+    static void AddScore() {
+        runningLM_ptr._AddScore();
+    }
+
+    private void _AddScore() {
+        score += this.difficulty.getScoreValue();
     }
 
     Vector2 RandomEdgePosition() {
@@ -40,8 +78,8 @@ public class LogicMaster {
 
         float x = 0, y = 0;
 
-        float asteroidBuffer = 20f;
-        float offset = 10.f + asteroidBuffer;
+        final float fixedSpawnRadius = 60f;
+        float offset = fixedSpawnRadius + 20f;
 
         switch (edge) {
             case 0: // top
@@ -65,6 +103,7 @@ public class LogicMaster {
                         * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
         }
+
         return new Vector2(x, y);
     }
 
@@ -89,6 +128,8 @@ public class LogicMaster {
             CreateAsteroid(new Vector2(300, 300));
         }
 
+        this.camCtl.Update(this.playerRef.position);
+
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;
             try {
@@ -111,7 +152,18 @@ public class LogicMaster {
                     drawText(String.format("%d\n%d", i, obj.priority),
                             (int) obj.position.getX(),
                             (int) obj.position.getY(), 18, RAYWHITE);
-                obj.Draw();
+
+                // I left popping intentionnaly noticable
+                // so it cam be shown verifiable that this is working
+                if (mUtils.vecMore(obj.position,
+                        mUtils.vecSub(camCtl.camera.target(),
+                                mUtils.vecDiv(camCtl.camera.offset(),
+                                        camCtl.camera.zoom())))
+                        && mUtils.vecLess(obj.position,
+                                mUtils.vecAdd(camCtl.camera.target(),
+                                        mUtils.vecDiv(camCtl.camera.offset(),
+                                                camCtl.camera.zoom()))))
+                    obj.Draw(); // Was it really THAT difficult?
             } catch (NullPointerException e) {
                 System.out.printf("Got a null on i == %d\n", i);
                 e.printStackTrace();
@@ -119,9 +171,12 @@ public class LogicMaster {
             }
         }
         timeSinceLastSpawn += getFrameTime();
-        if (timeSinceLastSpawn >= spawnCooldown) {
-            CreateAsteroid(RandomEdgePosition(),
-                    mUtils.Clamp((float) Math.random() * 4, 1.f, 4.f));
+        if (timeSinceLastSpawn >= this.difficulty.getSpawnCooldown()
+                && asteroidCount < difficulty.getMaxAsteroids()) {
+            CreateAsteroid(RandomEdgePosition()).speed =
+                    new Vector2((float) (Math.random() - .5) * 400,
+                            (float) (Math.random() - .5) * 400); // Was it really THAT difficult?
+
             timeSinceLastSpawn = 0.0f;
         }
 
@@ -135,5 +190,9 @@ public class LogicMaster {
         }
         objList.CleanupMemory();
 
+    }
+
+    void resetScore() {
+        score = 0;
     }
 }

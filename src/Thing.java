@@ -86,7 +86,9 @@ abstract public class Thing {
             throw new NullPointerException();
         if (this.shape.size < 2)
             return;
-        // drawCircleV(this.position, this.shape.colliderRadius, RED);
+
+        if (GLOBALS.DEBUG)
+            drawCircleLinesV(this.position, this.shape.colliderRadius, RED);
 
         Vector2 startPos = mUtils.vecAdd(this.shape.points[this.shape.size - 1],
                 this.position);
