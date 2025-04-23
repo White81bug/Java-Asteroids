@@ -35,12 +35,14 @@ public class Asteroid extends Thing {
     }
 
     Asteroid() {
-        super(Asteroid.asteroidShape);
-        priority = 20; // To decide from which object to call collision processing function from
+        super(new Shape(Asteroid.GenShape()));
+        this.priority = 20; // To decide from which object to call collision processing function from
     }
 
     Asteroid(Vector2 pos) {
         this();
+        super(new Shape(Asteroid.GenShape(), Shape.DEFAULT_SCALE * mass));
+        this.priority = 20; // To decide from which object to call collision processing function from
         this.position = pos;
 
         Vector2 direction = mUtils.vecSub(new Vector2(GLOBALS.MAX_WORLD_POS / 2f, GLOBALS.MAX_WORLD_POS / 2f), pos);
