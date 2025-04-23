@@ -67,8 +67,11 @@ public class Main {
                                 String.format("Rotation: %f",
                                         joel.playerRef.shape.rotation),
                                 20, 40, 18, RAYWHITE);
+
+                    if (joel.playerRef.askToDie
+                            || (GLOBALS.DEBUG && isKeyPressed(KEY_K)))
                         state = GameState.GAME_OVER;
-                    }
+
                     break;
 
                 case GAME_OVER:
