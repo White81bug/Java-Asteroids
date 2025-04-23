@@ -129,7 +129,10 @@ class LogicMaster {
         timeSinceLastSpawn += getFrameTime();
         if (timeSinceLastSpawn >= spawnCooldown
                 && asteroidCount < difficulty.getMaxAsteroids()) {
-            CreateAsteroid(RandomEdgePosition());
+            CreateAsteroid(RandomEdgePosition()).speed =
+                    new Vector2((float) (Math.random() - .5) * 400,
+                            (float) (Math.random() - .5) * 400); // Was it really THAT difficult?
+
             timeSinceLastSpawn = 0.0f;
         }
 
