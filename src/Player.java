@@ -6,14 +6,13 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-
 class Player extends Thing {
     //    *
     //   / \
     //  / * \
     // * / \ *
     //
-    static final Shape playerShape = new Shape(new Vector2[]{
+    static final Shape playerShape = new Shape(new Vector2[] {
             new Vector2(0, -2), new Vector2(-2, 2), new Vector2(0, 1),
             new Vector2(2, 2)
     });
