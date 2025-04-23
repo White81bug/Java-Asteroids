@@ -16,6 +16,7 @@ class LogicMaster {
     static LogicMaster runningLM_ptr = null;
 
     Player playerRef = null;
+    CameraController camCtl = null;
 
     //         (x1,y1)
     //         |\
@@ -33,6 +34,7 @@ class LogicMaster {
         objList = new StaticList<Thing>();
         LogicMaster.difficulty = difficulty;
         LogicMaster.runningLM_ptr = this;
+        this.camCtl = new CameraController();
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
@@ -98,6 +100,8 @@ class LogicMaster {
             this.asteroidCount++;
             CreateAsteroid(new Vector2(300, 300));
         }
+
+        this.camCtl.Update(this.playerRef.position);
 
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = null;

@@ -57,8 +57,7 @@ public class Main {
                     break;
 
                 case GAME:
-                    camCtrl.Update(joel.playerRef.position);
-                    beginMode2D(camCtrl.getCamera());
+                    beginMode2D(joel.camCtl.camera);
                     Renderer.drawGrid();
 
                     joel.RunLogic();
