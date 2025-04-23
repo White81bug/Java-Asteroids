@@ -13,7 +13,6 @@ class LogicMaster {
     private Difficulty difficulty;
     private int score = 0;
 
-    static int score = 0;
 
     Player playerRef = null;
 
