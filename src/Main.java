@@ -226,7 +226,10 @@ public class Main {
 
                     endMode2D();
                     drawFPS(20, 20);
-                    drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
+                    drawText(
+                            String.format("Rotation: %f",
+                                    joel.playerRef.shape.rotation),
+                            20, 40, 18, RAYWHITE);
 
                     if (joel.playerRef.askToDie) {
                         state = GameState.GAME_OVER;
