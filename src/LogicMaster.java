@@ -10,7 +10,8 @@ class LogicMaster {
     float timeSinceLastSpawn = 0.0f;
     int asteroidCount = 0;
 
-    static Difficulty difficulty;
+    private Difficulty difficulty;
+    private int score = 0;
 
     static int score = 0;
 
