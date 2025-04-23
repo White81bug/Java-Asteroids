@@ -170,7 +170,8 @@ class LogicMaster {
         }
         timeSinceLastSpawn += getFrameTime();
         if (timeSinceLastSpawn >= spawnCooldown) {
-            CreateAsteroid(RandomEdgePosition());
+            CreateAsteroid(RandomEdgePosition(),
+                    mUtils.Clamp((float) Math.random() * 4, 1.f, 4.f));
             timeSinceLastSpawn = 0.0f;
         }
 
