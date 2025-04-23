@@ -214,13 +214,13 @@ public class Main {
                     drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
                     drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
 
-                    drawText("<- -> to change", 560, 560, 16, GRAY);
+                    drawText("A/D to change", 560, 560, 16, GRAY);
                     drawText(difficulty.toString(), 500, 400, 20, GRAY);
 
-                    if (isKeyPressed(KEY_LEFT)) {
+                    if (isKeyPressed(KEY_A)) {
                         difficulty = difficulty.prev();
                     }
-                    if (isKeyPressed(KEY_RIGHT)) {
+                    if (isKeyPressed(KEY_D)) {
                         difficulty = difficulty.next();
                     }
 
