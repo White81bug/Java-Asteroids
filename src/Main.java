@@ -44,11 +44,9 @@ public class Main {
                     }
 
                     if (isKeyPressed(KEY_ENTER)) {
-                        joel = new LogicMaster(difficulty);
-                        joel.resetScore(); //just to be sure
-                        joel.CreatePlayer(new Vector2(200, 200));
-                        joel.CreateAsteroid(new Vector2(200, 100));
-                        joel.spawnCooldown = difficulty.getSpawnCooldown();
+                        joel = joel == null ? new LogicMaster() : joel;
+                        joel.CreatePlayer(new Vector2(GLOBALS.MAX_WORLD_POS / 2,
+                                GLOBALS.MAX_WORLD_POS / 2));
                         state = GameState.GAME;
                     }
                     break;
