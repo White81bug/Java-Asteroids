@@ -68,4 +68,10 @@ public class Asteroid extends Thing {
         this(pos, 1.f);
     }
 
+    void Draw() {
+        drawText(String.format("%f", this.angularMomentum),
+                (int) this.position.x(), (int) this.position.y() + 52, 18,
+                RAYWHITE);
+        super.Draw();
+    }
 }
