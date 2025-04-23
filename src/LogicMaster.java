@@ -13,6 +13,7 @@ class LogicMaster {
     private Difficulty difficulty;
     private int score = 0;
 
+    static LogicMaster runningLM_ptr = null;
 
     Player playerRef = null;
 
@@ -31,6 +32,7 @@ class LogicMaster {
     LogicMaster(Difficulty difficulty) {
         objList = new StaticList<Thing>();
         LogicMaster.difficulty = difficulty;
+        LogicMaster.runningLM_ptr = this;
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
