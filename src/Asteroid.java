@@ -44,16 +44,28 @@ public class Asteroid extends Thing {
         this.priority = 20; // To decide from which object to call collision processing function from
     }
 
-    Asteroid(Vector2 pos) {
-        this();
+    Asteroid(Vector2 pos, float mass) {
+
         super(new Shape(Asteroid.GenShape(), Shape.DEFAULT_SCALE * mass));
         this.priority = 20; // To decide from which object to call collision processing function from
         this.position = pos;
+        this.angularMomentum = ((float) Math.random() - .5f) / 10.f;
 
-        Vector2 direction = mUtils.vecSub(new Vector2(GLOBALS.MAX_WORLD_POS / 2f, GLOBALS.MAX_WORLD_POS / 2f), pos);
-        float length = (float) Math.sqrt(direction.getX() * direction.getX() + direction.getY() * direction.getY());
-        direction = new Vector2(direction.getX() / length, direction.getY() / length); // normalize
+        this.mass = mass;
+
+        Vector2 direction =
+                mUtils.vecSub(new Vector2(GLOBALS.MAX_WORLD_POS / 2f,
+                        GLOBALS.MAX_WORLD_POS / 2f), pos);
+        float length = (float) Math.sqrt(direction.getX() * direction.getX()
+                + direction.getY() * direction.getY());
+        direction = new Vector2(direction.getX() / length,
+                direction.getY() / length); // normalize
 
         this.speed = mUtils.vecMul(direction, 6f);//need to set up speed for appropriate movespeed
     }
+
+    Asteroid(Vector2 pos) {
+        this(pos, 1.f);
+    }
+
 }
