@@ -1,4 +1,5 @@
 import static com.raylib.Raylib.*;
+
 import com.raylib.Vector2;
 
 public class Asteroid extends Thing {
@@ -27,7 +28,9 @@ public class Asteroid extends Thing {
     }
 
     void OnHit() {
+        LogicMaster.AddScore();
         this.askToDie = true;
+
     }
 
     void OnCollision(Thing other) {
@@ -52,16 +55,6 @@ public class Asteroid extends Thing {
         this.angularMomentum = ((float) Math.random() - .5f) / 10.f;
 
         this.mass = mass;
-
-        Vector2 direction =
-                mUtils.vecSub(new Vector2(GLOBALS.MAX_WORLD_POS / 2f,
-                        GLOBALS.MAX_WORLD_POS / 2f), pos);
-        float length = (float) Math.sqrt(direction.getX() * direction.getX()
-                + direction.getY() * direction.getY());
-        direction = new Vector2(direction.getX() / length,
-                direction.getY() / length); // normalize
-
-        this.speed = mUtils.vecMul(direction, 6f);//need to set up speed for appropriate movespeed
     }
 
     Asteroid(Vector2 pos) {

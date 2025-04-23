@@ -1,96 +1,88 @@
+
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.KeyboardKey.*;
 import static com.raylib.Raylib.MouseButton.*;
 
+import com.raylib.Camera2D;
 import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
 public class Main {
     public static void main(String args[]) {
-        GLOBALS.DEBUG = System.getenv("DEBUG") != null ? true : false;
         GameState state = GameState.MENU;
 
         initWindow(1280, 800, "Fuck this shit");
+
+        // It doesn't work as expected without fps lock
+        // and I don't care enough to go through all the places
+        // that I need to add the frame time correction to
         setTargetFPS(60);
-
         LogicMaster joel = new LogicMaster();
-        CameraController camCtrl = new CameraController();
 
-        joel.CreatePlayer(new Vector2(200, 200));
-        joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
             beginDrawing();
             clearBackground(BLACK);
 
             switch (state) {
                 case MENU:
-                    drawText("ASTEROIDS GAME", 480, 180, 40, RAYWHITE);
-                    drawText("Press [ENTER] to Start", 500, 240, 20, GRAY);
-                    //controls explanation
-                    drawText("W / S - Move Forward / Backward", 460, 320, 18,
-                            LIGHTGRAY);
-                    drawText("A / D - Rotate Left / Right", 460, 350, 18,
-                            LIGHTGRAY);
-                    drawText("SPACE - Shoot", 460, 380, 18, LIGHTGRAY);
-                    drawText("P - Pause", 460, 410, 18, LIGHTGRAY);
-                    drawText("C - Toggle Camera Follow", 460, 440, 18,
-                            LIGHTGRAY);
-                    drawText("0 - Reset Player Position", 460, 470, 18,
-                            LIGHTGRAY);
-                    drawText("ESC - Exit", 460, 500, 18, LIGHTGRAY);
+                    drawText("ASTEROIDS GAME", 500, 300, 40, RAYWHITE);
+                    drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
+
+                    drawText("A/D to change", 560, 560, 16, GRAY);
+                    drawText(LogicMaster.GetDifficulty().toString(), 500, 400,
+                            20, GRAY);
+
+                    if (isKeyPressed(KEY_A)) {
+                        LogicMaster.SetDifficulty(
+                                LogicMaster.GetDifficulty().prev());
+                    }
+
+                    if (isKeyPressed(KEY_D)) {
+                        LogicMaster.SetDifficulty(
+                                LogicMaster.GetDifficulty().next());
+                    }
 
                     if (isKeyPressed(KEY_ENTER)) {
-                        joel = new LogicMaster(); // logic restart
-                        joel.CreatePlayer(new Vector2(200, 200));
-                        joel.CreateAsteroid(new Vector2(200, 100));
+                        joel = joel == null ? new LogicMaster() : joel;
+                        joel.CreatePlayer(new Vector2(GLOBALS.MAX_WORLD_POS / 2,
+                                GLOBALS.MAX_WORLD_POS / 2));
                         state = GameState.GAME;
                     }
                     break;
 
                 case GAME:
-                    if (isKeyPressed(KEY_P)) {
-                        state = GameState.PAUSE;
-                        break;
-                    }
-
-                    camCtrl.Update(joel.playerRef.position);
-
-                    beginMode2D(camCtrl.getCamera());
+                    beginMode2D(joel.camCtl.camera);
                     Renderer.drawGrid();
 
                     joel.RunLogic();
 
                     endMode2D();
-
                     drawFPS(20, 20);
-
+                    drawText(String.format("Score: %d\n" + "Lives: %d",
+                            LogicMaster.GetScore(), joel.playerRef.GetLives()),
+                            20, 65, 18, RAYWHITE);
                     if (GLOBALS.DEBUG)
                         drawText(
                                 String.format("Rotation: %f",
                                         joel.playerRef.shape.rotation),
                                 20, 40, 18, RAYWHITE);
 
-                    if (joel.playerRef.askToDie) {
+                    if (joel.playerRef.askToDie
+                            || (GLOBALS.DEBUG && isKeyPressed(KEY_K)))
                         state = GameState.GAME_OVER;
-                    }
-                    break;
 
-                case PAUSE:
-                    drawText("PAUSED", 560, 300, 40, YELLOW);
-                    drawText("Press [P] to Resume", 500, 350, 20, GRAY);
-
-                    if (isKeyPressed(KEY_P)) {
-                        state = GameState.GAME;
-                    }
                     break;
 
                 case GAME_OVER:
-                    drawText("GAME OVER", 550, 300, 40, RED);
-                    drawText("Press [ENTER] to go to Menu", 500, 350, 20, GRAY);
+                    drawText("GAME OVER", 550, 200, 40, RED);
+                    drawText("Press [ENTER] to go to Menu", 500, 325, 20, GRAY);
+                    drawText("SCORE: " + LogicMaster.GetScore(), 500, 300, 22,
+                            RAYWHITE);
                     if (isKeyPressed(KEY_ENTER)) {
                         state = GameState.MENU;
                     }
+                    joel = null;
                     break;
             }
 

@@ -34,6 +34,18 @@ public final class mUtils {
         return t > max ? max : t;
     }
 
+    static boolean vecLess(Vector2 a, Vector2 b) {
+        return a.x() < b.x() && a.y() < b.y();
+    }
+
+    static boolean vecMore(Vector2 a, Vector2 b) {
+        return a.x() > b.x() && a.y() > b.y();
+    }
+
+    static boolean vecEq(Vector2 a, Vector2 b) {
+        return a.x() == b.x() && a.y() == b.y();
+    }
+
     static Vector2 vecAdd(Vector2 a, Vector2 b) {
         return new Vector2(a.getX() + b.getX(), a.getY() + b.getY());
     }
@@ -48,6 +60,14 @@ public final class mUtils {
 
     static Vector2 vecMul(Vector2 a, float b) {
         return new Vector2(a.getX() * b, a.getY() * b);
+    }
+
+    static Vector2 vecDiv(Vector2 a, Vector2 b) {
+        return new Vector2(a.getX() / b.getX(), a.getY() / b.getY());
+    }
+
+    static Vector2 vecDiv(Vector2 a, float b) {
+        return new Vector2(a.getX() / b, a.getY() / b);
     }
 
     static int LogLevelToInt(LogLevel level) {
