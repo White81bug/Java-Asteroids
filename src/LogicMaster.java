@@ -53,20 +53,24 @@ class LogicMaster {
 
         switch (edge) {
             case 0: // top
-                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MIN_WORLD_POS + offset;
                 break;
             case 1: // right
                 x = GLOBALS.MAX_WORLD_POS - offset;
-                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
             case 2: // bottom
-                x = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 y = GLOBALS.MAX_WORLD_POS - offset;
                 break;
             case 3: // left
                 x = GLOBALS.MIN_WORLD_POS + offset;
-                y = (float) (Math.random() * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
                 break;
         }
 
@@ -112,9 +116,9 @@ class LogicMaster {
                 }
                 Collider.RunCollider(this.objList, i);
                 obj.Update();
-                drawText(
-                        String.format("%d\n%d", i, obj.priority),
-                        (int) obj.position.getX(), (int) obj.position.getY(), 18, RAYWHITE);
+                drawText(String.format("%d\n%d", i, obj.priority),
+                        (int) obj.position.getX(), (int) obj.position.getY(),
+                        18, RAYWHITE);
                 obj.Draw();
             } catch (NullPointerException e) {
                 System.out.printf("Got a null on i == %d\n", i);
@@ -123,7 +127,8 @@ class LogicMaster {
             }
         }
         timeSinceLastSpawn += getFrameTime();
-        if (timeSinceLastSpawn >= spawnCooldown && asteroidCount < difficulty.getMaxAsteroids()) {
+        if (timeSinceLastSpawn >= spawnCooldown
+                && asteroidCount < difficulty.getMaxAsteroids()) {
             CreateAsteroid(RandomEdgePosition());
             timeSinceLastSpawn = 0.0f;
         }
