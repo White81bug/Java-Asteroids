@@ -1,0 +1,134 @@
+import com.raylib.Vector2;
+import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.KeyboardKey.*;
+import static com.raylib.Raylib.MouseButton.*;
+
+public class LogicMaster {
+
+    float spawnCooldown = 2.0f;
+    float timeSinceLastSpawn = 0.0f;
+
+    Player playerRef = null;
+
+    //         (x1,y1)
+    //         |\
+    //         | \
+    //         |  \ sqrt((x2-x1)^2 + (y2-y1)^2) = r1+r2
+    // |y2-y1| |   \
+    //         |    \
+    //         |   X \
+    // (x1,y2) +------+ (x2,y2)
+    //          |x2-x1|
+
+    StaticList<Thing> objList;
+
+    LogicMaster() {
+        objList = new StaticList<Thing>();
+    }
+
+    Asteroid CreateAsteroid(Vector2 position, float mass) {
+        return (Asteroid) objList.Push(new Asteroid(position, mass));
+    }
+
+    Asteroid CreateAsteroid(Vector2 position) {
+        return CreateAsteroid(position, 1.f);
+    }
+
+    Vector2 RandomEdgePosition() {
+        int edge = (int) (Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+
+        float x = 0, y = 0;
+
+        float asteroidBuffer = 20f;
+        float offset = 10.f + asteroidBuffer;
+
+        switch (edge) {
+            case 0: // top
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = GLOBALS.MIN_WORLD_POS + offset;
+                break;
+            case 1: // right
+                x = GLOBALS.MAX_WORLD_POS - offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                break;
+            case 2: // bottom
+                x = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                y = GLOBALS.MAX_WORLD_POS - offset;
+                break;
+            case 3: // left
+                x = GLOBALS.MIN_WORLD_POS + offset;
+                y = (float) (Math.random()
+                        * (GLOBALS.MAX_WORLD_POS - 2 * offset)) + offset;
+                break;
+        }
+        return new Vector2(x, y);
+    }
+
+    Player CreatePlayer(Vector2 position) {
+        this.playerRef = (Player) objList.Push(new Player(position));
+        return this.playerRef;
+    }
+
+    Bullet CreateBullet() {
+        return (Bullet) objList.Push(new Bullet(this.playerRef));
+    }
+
+    void RunLogic() {
+        this.objList.Sort();
+
+        if (isKeyPressed(KEY_SPACE)) {
+            CreateBullet();
+        }
+
+        if (isKeyPressed(KEY_EQUAL)) {
+            CreateAsteroid(new Vector2(300, 300));
+        }
+
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = null;
+            try {
+                obj = objList.Get(i);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+            if (obj == null)
+                continue;
+
+            try {
+
+                if (obj.askToDie) {
+                    continue;
+                }
+                Collider.RunCollider(this.objList, i);
+                obj.Update();
+                if (GLOBALS.DEBUG)
+                    drawText(String.format("%d\n%d", i, obj.priority),
+                            (int) obj.position.getX(),
+                            (int) obj.position.getY(), 18, RAYWHITE);
+                obj.Draw();
+            } catch (NullPointerException e) {
+                System.out.printf("Got a null on i == %d\n", i);
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+        timeSinceLastSpawn += getFrameTime();
+        if (timeSinceLastSpawn >= spawnCooldown) {
+            CreateAsteroid(RandomEdgePosition(),
+                    mUtils.Clamp((float) Math.random() * 4, 1.f, 4.f));
+            timeSinceLastSpawn = 0.0f;
+        }
+
+        for (int i = 0; i < objList.GetLen(); i++) {
+            Thing obj = obj = objList.Get(i);
+            if (obj.askToDie)
+                objList.Pop(i);
+        }
+        objList.CleanupMemory();
+
+    }
+}

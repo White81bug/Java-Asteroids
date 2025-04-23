@@ -36,8 +36,10 @@ final class Collider {
             else
                 second.OnCollision(first);
 
-            drawRectangleV(first.position, new Vector2(10, 10), RED);
-            drawRectangleV(second.position, new Vector2(10, 10), RED);
+            if (GLOBALS.DEBUG) {
+                drawRectangleV(first.position, new Vector2(10, 10), RED);
+                drawRectangleV(second.position, new Vector2(10, 10), RED);
+            }
 
             collisionCount++;
         }
