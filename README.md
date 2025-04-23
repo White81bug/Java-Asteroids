@@ -10,8 +10,11 @@ A: Because
 
 ## How to build
 
-Clone the repo, run `make setup all` 
+Clone the repo, run `make all` 
 
 ## How to run
 
 `make run`
+
+or just `make all run` to build and run at once...
+Yea, you'll need `make` on your pc and I have no idea if windows has it or not
