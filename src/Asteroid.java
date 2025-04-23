@@ -1,10 +1,30 @@
+import static com.raylib.Raylib.*;
 import com.raylib.Vector2;
 
 public class Asteroid extends Thing {
-    static final Shape asteroidShape = new Shape(new Vector2[]{
-            new Vector2(2, 2), new Vector2(-2, 2), new Vector2(-2, -2),
-            new Vector2(2, -2)
-    });
+    static final float ROUGHNESS = .5f;
+    static final float HORIZONTAL_BIAS = .5f;
+    float angularMomentum;
+
+    static Vector2[] GenShape() {
+        final Vector2 ref = new Vector2(2, 2);
+        final float step = mUtils.TAU / Shape.MAX_SIZE;
+        Vector2[] shape = new Vector2[Shape.MAX_SIZE];
+        Vector2 correction = new Vector2();
+        Vector2 randOffset = new Vector2();
+
+        for (int i = 0; i < Shape.MAX_SIZE; i++) {
+            // Even float math is faster than creating and accessing a new var for `step * i`
+            correction.x((float) Math.sin(step * i));
+            correction.y((float) Math.cos(step * i));
+            randOffset.x((float) Math.random() * Asteroid.ROUGHNESS
+                    * Asteroid.HORIZONTAL_BIAS - .5f);
+            randOffset.y((float) Math.random() * Asteroid.ROUGHNESS - .5f);
+            shape[i] =
+                    mUtils.vecMul(mUtils.vecAdd(ref, randOffset), correction);
+        }
+        return shape;
+    }
 
     void OnHit() {
         this.askToDie = true;
