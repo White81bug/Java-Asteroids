@@ -56,9 +56,21 @@ class LogicMaster {
     private Difficulty _GetDifficulty() {
         return this.difficulty;
     }
-    static void AddScore() {
 
-        score += difficulty.getScoreValue();
+    static int GetScore() {
+        return LogicMaster.runningLM_ptr._GetScore();
+    }
+
+    private int _GetScore() {
+        return this.score;
+    }
+
+    static void AddScore() {
+        runningLM_ptr._AddScore();
+    }
+
+    private void _AddScore() {
+        score += this.difficulty.getScoreValue();
     }
 
     Vector2 RandomEdgePosition() {

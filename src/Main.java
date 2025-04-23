@@ -75,9 +75,10 @@ public class Main {
                     break;
 
                 case GAME_OVER:
-                    drawText("GAME OVER", 550, 300, 40, RED);
-                    drawText("Press [ENTER] to go to Menu", 500, 350, 20, GRAY);
-                    drawText("SCORE: " + joel.score, 560, 350, 22, RAYWHITE);
+                    drawText("GAME OVER", 550, 200, 40, RED);
+                    drawText("Press [ENTER] to go to Menu", 500, 325, 20, GRAY);
+                    drawText("SCORE: " + LogicMaster.GetScore(), 500, 300, 22,
+                            RAYWHITE);
                     if (isKeyPressed(KEY_ENTER)) {
                         state = GameState.MENU;
                     }
