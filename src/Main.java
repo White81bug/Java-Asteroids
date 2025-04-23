@@ -66,10 +66,14 @@ public class Main {
 
                     endMode2D();
                     drawFPS(20, 20);
-                    drawText("Score: " + joel.score, 20, 65, 18, RAYWHITE);
-                    drawText(String.format("Rotation: %f", joel.playerRef.shape.rotation), 20, 40, 18, RAYWHITE);
-
-                    if (joel.playerRef.askToDie) {
+                    drawText(String.format("Score: %d\n" + "Lives: %d",
+                            LogicMaster.GetScore(), joel.playerRef.GetLives()),
+                            20, 65, 18, RAYWHITE);
+                    if (GLOBALS.DEBUG)
+                        drawText(
+                                String.format("Rotation: %f",
+                                        joel.playerRef.shape.rotation),
+                                20, 40, 18, RAYWHITE);
                         state = GameState.GAME_OVER;
                     }
                     break;
