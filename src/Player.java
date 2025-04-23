@@ -20,6 +20,8 @@ class Player extends Thing {
     final float moveSpeed = 3.5f;
     final float rotSpeed = 2.5f;
 
+    private int lives = 1;
+
     Player() {
         super(Player.playerShape);
         priority = 50;
@@ -31,11 +33,20 @@ class Player extends Thing {
         this.position = pos;
     }
 
-    void OnHit() {
+    int GetLives() {
+        return lives;
+    }
 
+    void OnHit() {
+        if (this.lives == 0) {
+            this.askToDie = true;
+            return;
+        }
+        this.lives--;
     }
 
     void OnCollision(Thing other) {
+        this.OnHit();
         Collider.Bounce(this, other);
     }
 
