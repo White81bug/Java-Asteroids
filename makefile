@@ -14,11 +14,11 @@ run: build/Main.class
 	java -cp build/jaylib-ffm.jar:build Main
 
 make-tag: all
-	echo $(TAG_NAME)
+	git branch $(TAG_NAME)
+	git switch $(TAG_NAME)
 	cp build/* .gitlab
 	if [ ! -e .gitlab ]; then mkdir .gitlab; fi
 	git add .gitlab
-	git branch $(TAG_NAME)
 	git commit -m "automatic commit for a tag"
 	git push origin $(TAG_NAME)
 
