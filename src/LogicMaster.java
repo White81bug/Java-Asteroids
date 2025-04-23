@@ -152,6 +152,18 @@ class LogicMaster {
                     drawText(String.format("%d\n%d", i, obj.priority),
                             (int) obj.position.getX(),
                             (int) obj.position.getY(), 18, RAYWHITE);
+
+                // I left popping intentionnaly noticable
+                // so it cam be shown verifiable that this is working
+                if (mUtils.vecMore(obj.position,
+                        mUtils.vecSub(camCtl.camera.target(),
+                                mUtils.vecDiv(camCtl.camera.offset(),
+                                        camCtl.camera.zoom())))
+                        && mUtils.vecLess(obj.position,
+                                mUtils.vecAdd(camCtl.camera.target(),
+                                        mUtils.vecDiv(camCtl.camera.offset(),
+                                                camCtl.camera.zoom()))))
+                    obj.Draw(); // Was it really THAT difficult?
             } catch (NullPointerException e) {
                 System.out.printf("Got a null on i == %d\n", i);
                 e.printStackTrace();
