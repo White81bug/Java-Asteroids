@@ -1,7 +1,9 @@
 import com.raylib.Vector2;
 
-public class Bullet extends Thing {
-    static final Shape bulletShape = new Shape(new Vector2[] {
+class Bullet extends Thing {
+
+
+    static final Shape bulletShape = new Shape(new Vector2[]{
             new Vector2(0, -2f), new Vector2(2f, 2f), new Vector2(-2f, 2f)
     }, (float) 5);
 
@@ -18,6 +20,7 @@ public class Bullet extends Thing {
 
     Bullet(Player player) {
         super(Bullet.bulletShape);
+
         priority = 100;
         this.position = mUtils.vecAdd(player.position,
                 mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
