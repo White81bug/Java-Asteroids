@@ -8,23 +8,18 @@ import com.raylib.Vector2;
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
-
 public class Main {
     public static void main(String args[]) {
         GameState state = GameState.MENU;
 
         initWindow(1280, 800, "Fuck this shit");
+
+        // It doesn't work as expected without fps lock
+        // and I don't care enough to go through all the places
+        // that I need to add the frame time correction to
         setTargetFPS(60);
+        LogicMaster joel = new LogicMaster();
 
-        Camera2D camera = new Camera2D(
-                //changed initial coords for camera. Without this change player in top-right corner
-                new Vector2(getScreenWidth() / 2.0f, getScreenHeight() / 2.0f),
-                new Vector2(0, 0), 0, 2f);
-        LogicMaster joel = joel = new LogicMaster(difficulty);
-        CameraController camCtrl = new CameraController();
-
-        joel.CreatePlayer(new Vector2(200, 200));
-        joel.CreateAsteroid(new Vector2(200, 100));
         while (!windowShouldClose()) {
             beginDrawing();
             clearBackground(BLACK);
