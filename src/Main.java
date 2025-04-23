@@ -93,8 +93,7 @@ class LogicMaster {
         float x = 0, y = 0;
 
         float asteroidBuffer = 20f;
-        float asteroidRadius = Asteroid.asteroidShape.colliderRadius;
-        float offset = asteroidRadius + asteroidBuffer;
+        float offset = 10.f + asteroidBuffer;
 
         switch (edge) {
             case 0: // top
