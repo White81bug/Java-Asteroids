@@ -148,16 +148,4 @@ class LogicMaster {
     void resetScore() {
         score = 0;
     }
-
-    //fine.. Let it be your way
-    /*int getAsteroidCount() {
-        int count = 0;
-        for (int i = 0; i < objList.GetLen(); i++) {
-            Thing obj = objList.Get(i);
-            if (obj instanceof Asteroid && !obj.askToDie) {
-                count++;
-            }
-        }
-        return count;
-    }*/
 }
