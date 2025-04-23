@@ -7,13 +7,20 @@ import com.raylib.Vector2;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 class Bullet extends Thing {
-    static final Shape bulletShape = new Shape(new Vector2[] {
+
+    LogicMaster logic;
+    Difficulty difficulty;
+
+    static final Shape bulletShape = new Shape(new Vector2[]{
             new Vector2(0, -2f), new Vector2(2f, 2f), new Vector2(-2f, 2f)
     }, (float) 5);
 
     static final float START_SPEED = 16.0f;
 
     void OnCollision(Thing other) {
+        if (other instanceof Asteroid) {
+            logic.AddScore(difficulty.getScoreValue());
+        }
         other.OnHit();
         this.askToDie = true;
     }
@@ -22,8 +29,10 @@ class Bullet extends Thing {
         this.askToDie = true;
     }
 
-    Bullet(Player player) {
+    Bullet(Player player, LogicMaster logic) {
         super(Bullet.bulletShape);
+        this.logic = logic;
+        this.difficulty = logic.difficulty;
         priority = 100;
         this.position = mUtils.vecAdd(player.position,
                 mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));
@@ -44,7 +53,7 @@ class Player extends Thing {
     //  / * \
     // * / \ *
     //
-    static final Shape playerShape = new Shape(new Vector2[] {
+    static final Shape playerShape = new Shape(new Vector2[]{
             new Vector2(0, -2), new Vector2(-2, 2), new Vector2(0, 1),
             new Vector2(2, 2)
     });
