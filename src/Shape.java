@@ -7,20 +7,21 @@ import java.lang.ArrayIndexOutOfBoundsException;
 import java.util.Optional;
 
 public class Shape {
+    static final float DEFAULT_SCALE = 20;
+    static final int MAX_SIZE = 32;
+
     final private Vector2[] ref;
+
     Vector2[] points;
     int size = 0;
-    float scale = 20; // Scale to multiply radius and shape by
+    float scale = Shape.DEFAULT_SCALE; // Scale to multiply radius and shape by
     float colliderRadius = 2; // Radius that will be used to process collision
     float rotation = 0;
-
-    static final int MAX_SIZE = 32;
 
     Shape(Vector2[] newPoints) {
         super();
         this.size = newPoints.length;
         this.colliderRadius *= this.scale;
-
         this.points = new Vector2[MAX_SIZE];
         Vector2 temp[] = new Vector2[MAX_SIZE];
         for (int i = 0; i < this.size; i++) {
