@@ -9,7 +9,6 @@ import java.lang.ArrayIndexOutOfBoundsException;
 public class Main {
     public static void main(String args[]) {
         GLOBALS.DEBUG = System.getenv("DEBUG") != null ? true : false;
-        System.out.println(GLOBALS.DEBUG);
         GameState state = GameState.MENU;
 
         initWindow(1280, 800, "Fuck this shit");
