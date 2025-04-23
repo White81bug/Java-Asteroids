@@ -82,6 +82,7 @@ public class Main {
                     if (isKeyPressed(KEY_ENTER)) {
                         state = GameState.MENU;
                     }
+                    joel = null;
                     break;
             }
 
