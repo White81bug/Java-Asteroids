@@ -38,22 +38,30 @@ abstract public class Thing {
         Vector2 temp = mUtils.vecAdd(this.position,
                 mUtils.vecMul(this.speed, getFrameTime()));
 
-        if (temp.getX() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS) {
+        // Going to collide with the left-most border
+        if (temp.getX() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS
+                && mUtils.GetSign(this.speed.x()) == -1) {
             this.speed.setX(-this.speed.getX());
             recalc = true;
         }
 
-        if (temp.getY() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS) {
+        // Going to collide with the top-most border
+        if (temp.getY() - this.shape.colliderRadius < GLOBALS.MIN_WORLD_POS
+                && mUtils.GetSign(this.speed.y()) == -1) {
             this.speed.setY(-this.speed.getY());
             recalc = true;
         }
 
-        if (temp.getX() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS) {
+        // Going to collide with the right-most border
+        if (temp.getX() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS
+                && mUtils.GetSign(this.speed.x()) == 1) {
             this.speed.setX(-this.speed.getX());
             recalc = true;
         }
 
-        if (temp.getY() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS) {
+        // Going to collide with the bottom-most border
+        if (temp.getY() + this.shape.colliderRadius > GLOBALS.MAX_WORLD_POS
+                && mUtils.GetSign(this.speed.y()) == 1) {
             this.speed.setY(-this.speed.getY());
             recalc = true;
         }
