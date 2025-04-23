@@ -50,6 +50,14 @@ public final class mUtils {
         return new Vector2(a.getX() * b, a.getY() * b);
     }
 
+    static Vector2 vecDiv(Vector2 a, Vector2 b) {
+        return new Vector2(a.getX() / b.getX(), a.getY() / b.getY());
+    }
+
+    static Vector2 vecDiv(Vector2 a, float b) {
+        return new Vector2(a.getX() / b, a.getY() / b);
+    }
+
     static int LogLevelToInt(LogLevel level) {
         switch (level) {
             case LogLevel.FATAL:
