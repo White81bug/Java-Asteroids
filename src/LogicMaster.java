@@ -122,7 +122,7 @@ class LogicMaster {
             }
         }
         timeSinceLastSpawn += getFrameTime();
-        if (timeSinceLastSpawn >= spawnCooldown && getAsteroidCount() < difficulty.getMaxAsteroids()) {
+        if (timeSinceLastSpawn >= spawnCooldown && asteroidCount < difficulty.getMaxAsteroids()) {
             CreateAsteroid(RandomEdgePosition());
             timeSinceLastSpawn = 0.0f;
         }
@@ -139,7 +139,8 @@ class LogicMaster {
 
     }
 
-    int getAsteroidCount() {
+    //fine.. Let it be your way
+    /*int getAsteroidCount() {
         int count = 0;
         for (int i = 0; i < objList.GetLen(); i++) {
             Thing obj = objList.Get(i);
@@ -148,5 +149,5 @@ class LogicMaster {
             }
         }
         return count;
-    }
+    }*/
 }
