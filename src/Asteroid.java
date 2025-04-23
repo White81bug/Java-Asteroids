@@ -62,7 +62,7 @@ public class Asteroid extends Thing {
         direction = new Vector2(direction.getX() / length,
                 direction.getY() / length); // normalize
 
-        this.speed = mUtils.vecMul(direction, 60f);//need to set up speed for appropriate movespeed
+        this.speed = mUtils.vecMul(direction, (int) (Math.random() * 100));//enjoy random speed
     }
 
     Asteroid(Vector2 pos) {
