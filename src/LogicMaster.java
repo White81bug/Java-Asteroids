@@ -11,9 +11,9 @@ class LogicMaster {
     float timeSinceLastSpawn = 0.0f;
     int asteroidCount = 0;
 
-    Difficulty difficulty;
+    static Difficulty difficulty;
 
-    int score = 0;
+    static int score = 0;
 
     Player playerRef = null;
 
@@ -31,15 +31,16 @@ class LogicMaster {
 
     LogicMaster(Difficulty difficulty) {
         objList = new StaticList<Thing>();
-        this.difficulty = difficulty;
+        LogicMaster.difficulty = difficulty;
     }
 
     Asteroid CreateAsteroid(Vector2 position) {
         return (Asteroid) objList.Push(new Asteroid(position));
     }
 
-    void AddScore(int amount) {
-        score += amount;
+    static void AddScore() {
+
+        score += difficulty.getScoreValue();
     }
 
     Vector2 RandomEdgePosition() {
@@ -78,7 +79,7 @@ class LogicMaster {
     }
 
     Bullet CreateBullet() {
-        return (Bullet) objList.Push(new Bullet(this.playerRef, this));
+        return (Bullet) objList.Push(new Bullet(this.playerRef));
     }
 
     void RunLogic() {
@@ -137,6 +138,10 @@ class LogicMaster {
         }
         objList.CleanupMemory();
 
+    }
+
+    void resetScore() {
+        score = 0;
     }
 
     //fine.. Let it be your way

@@ -2,8 +2,6 @@ import com.raylib.Vector2;
 
 class Bullet extends Thing {
 
-    LogicMaster logic;
-    Difficulty difficulty;
 
     static final Shape bulletShape = new Shape(new Vector2[]{
             new Vector2(0, -2f), new Vector2(2f, 2f), new Vector2(-2f, 2f)
@@ -12,9 +10,6 @@ class Bullet extends Thing {
     static final float START_SPEED = 16.0f;
 
     void OnCollision(Thing other) {
-        if (other instanceof Asteroid) {
-            logic.AddScore(difficulty.getScoreValue());
-        }
         other.OnHit();
         this.askToDie = true;
     }
@@ -23,10 +18,9 @@ class Bullet extends Thing {
         this.askToDie = true;
     }
 
-    Bullet(Player player, LogicMaster logic) {
+    Bullet(Player player) {
         super(Bullet.bulletShape);
-        this.logic = logic;
-        this.difficulty = logic.difficulty;
+
         priority = 100;
         this.position = mUtils.vecAdd(player.position,
                 mUtils.vecMul(player.shape.points[0], new Vector2(2, 2)));

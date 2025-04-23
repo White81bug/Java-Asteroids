@@ -28,7 +28,9 @@ public class Asteroid extends Thing {
     }
 
     void OnHit() {
+        LogicMaster.AddScore();
         this.askToDie = true;
+
     }
 
     void OnCollision(Thing other) {

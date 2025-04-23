@@ -48,6 +48,7 @@ public class Main {
 
                     if (isKeyPressed(KEY_ENTER)) {
                         joel = new LogicMaster(difficulty);
+                        joel.resetScore(); //just to be sure
                         joel.CreatePlayer(new Vector2(200, 200));
                         joel.CreateAsteroid(new Vector2(200, 100));
                         joel.spawnCooldown = difficulty.getSpawnCooldown();
