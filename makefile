@@ -3,6 +3,7 @@ export VERSION=5.5.0-2
 # export DEBUG=1
 
 all:
+	if [ ! -e build/jaylib-ffm.jar ]; then make setup; fi
 	make build/Main.class
 
 build/Main.class: src/* makefile
