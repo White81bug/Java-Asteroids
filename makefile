@@ -1,6 +1,6 @@
 export VERSION=5.5.0-2
 
-export DEBUG=1
+# export DEBUG=1
 
 all:
 	make build/Main.class
