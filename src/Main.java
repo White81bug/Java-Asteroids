@@ -12,7 +12,7 @@ public class Main {
     public static void main(String args[]) {
         GameState state = GameState.MENU;
 
-        initWindow(1280, 800, "Fuck this shit");
+        initWindow(1280, 800, "Asteroids");
 
         // It doesn't work as expected without fps lock
         // and I don't care enough to go through all the places
@@ -60,7 +60,7 @@ public class Main {
                     endMode2D();
                     drawFPS(20, 20);
                     drawText(String.format("Score: %d\n" + "Lives: %d",
-                            LogicMaster.GetScore(), joel.playerRef.GetLives()),
+                                    LogicMaster.GetScore(), joel.playerRef.GetLives()),
                             20, 65, 18, RAYWHITE);
                     if (GLOBALS.DEBUG)
                         drawText(
