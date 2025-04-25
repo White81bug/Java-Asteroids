@@ -13,6 +13,12 @@ build/Main.class: src/* makefile
 run: build/Main.class
 	java -cp build/jaylib-ffm.jar:build Main
 
+build/java-asteroids.jar: all
+	cd build; jar mcvf ../META-INF/MANIFEST.MF  java-asteroids.jar .
+
+run-jar:
+	java -jar build/java-asteroids.jar
+
 make-tag: all
 	git push origin $(git describe --tags --abbrev=0)
 
@@ -23,3 +29,6 @@ setup:
 
 debug:
 	jdb -sourcepath src -classpath build/jaylib-ffm.jar:build Main
+
+clean-class:
+	rm -f build/*.class
