@@ -29,3 +29,6 @@ setup:
 
 debug:
 	jdb -sourcepath src -classpath build/jaylib-ffm.jar:build Main
+
+clean-class:
+	rm -f build/*.class
