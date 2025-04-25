@@ -41,6 +41,10 @@ class LogicMaster {
         return (Asteroid) objList.Push(new Asteroid(position));
     }
 
+    Asteroid CreateAsteroid(Vector2 position, float mass) {
+        return (Asteroid) objList.Push(new Asteroid(position, mass));
+    }
+
     static Difficulty SetDifficulty(Difficulty dif) {
         return LogicMaster.runningLM_ptr._SetDifficulty(dif);
     }
@@ -173,9 +177,10 @@ class LogicMaster {
         timeSinceLastSpawn += getFrameTime();
         if (timeSinceLastSpawn >= this.difficulty.getSpawnCooldown()
                 && asteroidCount < difficulty.getMaxAsteroids()) {
-            CreateAsteroid(RandomEdgePosition()).speed =
-                    new Vector2((float) (Math.random() - .5) * 400,
-                            (float) (Math.random() - .5) * 400); // Was it really THAT difficult?
+            CreateAsteroid(RandomEdgePosition(),
+                    mUtils.Clamp((float) (Math.random() * 4), 1, 4)).speed =
+                            new Vector2((float) (Math.random() - .5) * 400,
+                                    (float) (Math.random() - .5) * 400); // Was it really THAT difficult?
 
             timeSinceLastSpawn = 0.0f;
         }
