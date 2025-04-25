@@ -1,3 +1,4 @@
+import com.raylib.Raylib;
 import com.raylib.Vector2;
 
 class Bullet extends Thing {
@@ -8,6 +9,9 @@ class Bullet extends Thing {
     }, (float) 5);
 
     static final float START_SPEED = 16.0f;
+    static final float lifeTime = 5.0f;
+
+    float aliveTime = 0.0f;
 
     void OnCollision(Thing other) {
         other.OnHit();
@@ -31,6 +35,11 @@ class Bullet extends Thing {
     }
 
     void Update() {
+
+        aliveTime += Raylib.getFrameTime();
+        if (aliveTime >= lifeTime) {
+            askToDie = true;
+        }
         super.Update();
     }
 }
