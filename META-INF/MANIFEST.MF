@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: 24.0.1 (Arch Linux)
+Main-Class: Main
+Class-Path: jaylib-ffm.jar
