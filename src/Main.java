@@ -30,6 +30,19 @@ public class Main {
                     drawText("Press [ENTER] to Start", 500, 350, 20, GRAY);
 
                     drawText("A/D to change", 560, 560, 16, GRAY);
+
+                    int baseX = getScreenWidth() - 400; // Сдвиг от правого края
+                    int baseY = getScreenHeight() - 300; // Сдвиг от нижнего края
+
+                 
+                    drawText("W / S - Move Forward / Backward", baseX, baseY + 0, 18, LIGHTGRAY);
+                    drawText("A / D - Rotate Left / Right", baseX, baseY + 30, 18, LIGHTGRAY);
+                    drawText("SPACE - Shoot", baseX, baseY + 60, 18, LIGHTGRAY);
+                    drawText("P - Pause", baseX, baseY + 90, 18, LIGHTGRAY);
+                    drawText("C - Toggle Camera Follow", baseX, baseY + 120, 18, LIGHTGRAY);
+                    drawText("0 - Reset Player Position", baseX, baseY + 150, 18, LIGHTGRAY);
+                    drawText("ESC - Exit", baseX, baseY + 180, 18, LIGHTGRAY);
+
                     drawText(LogicMaster.GetDifficulty().toString(), 500, 400,
                             20, GRAY);
 
