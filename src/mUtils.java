@@ -72,21 +72,21 @@ public final class mUtils {
 
     static int LogLevelToInt(LogLevel level) {
         switch (level) {
-            case LogLevel.FATAL:
+            case FATAL:
                 return 0;
-            case LogLevel.ERROR:
+            case ERROR:
                 return 1;
-            case LogLevel.WARN:
+            case WARN:
                 return 2;
-            case LogLevel.BENCH:
+            case BENCH:
                 return 3;
-            case LogLevel.INFO:
+            case INFO:
                 return 4;
-            case LogLevel.FIXME:
+            case FIXME:
                 return 5;
-            case LogLevel.DEBUG:
+            case DEBUG:
                 return 6;
-            case LogLevel.TRACE:
+            case TRACE:
                 return 7;
         }
         return 7; // Because fuck you that's why
