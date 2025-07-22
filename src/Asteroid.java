@@ -57,6 +57,7 @@ public class Asteroid extends Thing {
         this.angularMomentum = ((float) Math.random() - .5f) / 10.f;
 
         this.mass = mass;
+
     }
 
     Asteroid(Vector2 pos) {

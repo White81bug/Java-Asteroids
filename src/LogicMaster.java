@@ -37,6 +37,19 @@ class LogicMaster {
         LogicMaster.runningLM_ptr = this;
         this.difficulty = Difficulty.NORMAL;
         this.camCtl = new CameraController();
+
+        int initialAsteroidCount = this.difficulty.getMaxAsteroids() / 3;
+
+        for (int i = 0; i < initialAsteroidCount; i++) {
+            Vector2 pos = RandomEdgePosition();
+            float mass = (float)(Math.random() * 3.0 + 1.0);
+            Asteroid a = CreateAsteroid(pos, mass);
+
+            Vector2 center = new Vector2(GLOBALS.MAX_WORLD_POS / 2,
+                    GLOBALS.MAX_WORLD_POS / 2);
+            Vector2 dir = mUtils.vecNormalize(mUtils.vecSub(center, pos));
+            a.speed = mUtils.vecMul(dir, 500.0f / mass);
+        }
     }
 
     Asteroid CreateAsteroid(Vector2 position) {

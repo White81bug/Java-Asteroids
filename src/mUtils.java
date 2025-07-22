@@ -72,6 +72,12 @@ public final class mUtils {
         return new Vector2(a.getX() / b, a.getY() / b);
     }
 
+    static Vector2 vecNormalize(Vector2 v) {
+        float length = (float)Math.sqrt(v.x() * v.x() + v.y() * v.y());
+        if (length == 0) return new Vector2(0, 0);
+        return new Vector2(v.x() / length, v.y() / length);
+    }
+
     static int LogLevelToInt(LogLevel level) {
         switch (level) {
             case FATAL:
