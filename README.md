@@ -16,5 +16,4 @@ Clone the repo, run `make all`
 
 `make run`
 
-or just `make all run` to build and run at once...
-Yea, you'll need `make` on your pc and I have no idea if windows has it or not
+or just use .jar in root folder
