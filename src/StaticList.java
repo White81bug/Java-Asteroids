@@ -1,3 +1,5 @@
+package src;
+
 @SuppressWarnings("unchecked")
 public class StaticList<T> {
     static final int ARRAY_SIZE = 1024;

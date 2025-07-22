@@ -1,3 +1,5 @@
+package src;
+
 public final class GLOBALS {
     static boolean DEBUG = false;
     static LogLevel LOG_LEVEL = LogLevel.WARN;

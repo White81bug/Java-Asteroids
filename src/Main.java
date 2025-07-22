@@ -1,3 +1,4 @@
+package src;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.KeyboardKey.*;

@@ -1,3 +1,5 @@
+package src;
+
 public enum Difficulty {
     EASY,
     NORMAL,

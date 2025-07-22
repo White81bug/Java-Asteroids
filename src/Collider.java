@@ -1,3 +1,5 @@
+package src;
+
 import static com.raylib.Raylib.*;
 import com.raylib.Vector2;
 
